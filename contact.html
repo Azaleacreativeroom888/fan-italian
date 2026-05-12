@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contatto – Fumetti di Sicilia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Satisfy&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosso:#C0392B; --rosso-dk:#922B21; --terracotta:#D4693A;
+      --oro:#E8B84B; --crema:#FAF3E0; --crema-dk:#F0E6C8;
+      --marrone:#5C3317; --verde:#2E7D32; --testo:#2C1810;
+      --ombra:rgba(44,24,16,.18);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      background-color:var(--crema);
+      background-image:
+        repeating-linear-gradient(45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%),
+        repeating-linear-gradient(-45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%);
+      background-size:28px 28px;
+      font-family:'Lora',serif; color:var(--testo);
+    }
+    nav {
+      background:var(--rosso); display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:64px;
+      box-shadow:0 4px 16px var(--ombra); position:sticky; top:0; z-index:100;
+      border-bottom:4px solid var(--oro);
+    }
+    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; text-decoration:none; }
+    .nav-links { display:flex; gap:1.6rem; }
+    .nav-links a {
+      color:var(--crema); text-decoration:none; font-family:'Lora',serif;
+      font-size:.95rem; font-weight:600; padding:4px 0;
+      border-bottom:2px solid transparent; transition:border-color .25s,color .25s;
+    }
+    .nav-links a:hover,.nav-links a.active { border-color:var(--oro); color:var(--oro); }
+
+    .page-header {
+      background:var(--verde); color:var(--crema);
+      text-align:center; padding:3.5rem 2rem;
+      border-bottom:6px solid var(--oro); position:relative; overflow:hidden;
+    }
+    .page-header::before {
+      content:'📮 📮 📮 📮 📮 📮 📮 📮 📮 📮';
+      position:absolute; bottom:-6px; left:0; right:0;
+      font-size:3rem; opacity:.08; white-space:nowrap; overflow:hidden; letter-spacing:18px;
+    }
+    .page-header h1 { font-family:'Satisfy',cursive; font-size:3rem; position:relative; }
+    .page-header p { font-style:italic; opacity:.85; margin-top:.5rem; position:relative; }
+
+    /* LAYOUT */
+    .contact-wrap {
+      max-width:1000px; margin:3.5rem auto 5rem; padding:0 2rem;
+      display:grid; grid-template-columns:1.2fr 1fr; gap:3rem;
+    }
+
+    /* FORM */
+    .form-card {
+      background:#fff; border:2px solid var(--crema-dk);
+      box-shadow:6px 6px 0 var(--terracotta);
+      border-radius:4px; padding:2.5rem 2rem;
+    }
+    .form-card h2 {
+      font-family:'Satisfy',cursive; font-size:1.8rem; color:var(--rosso);
+      margin-bottom:1.5rem;
+    }
+    .field { margin-bottom:1.4rem; }
+    label { display:block; font-weight:700; font-size:.88rem; margin-bottom:.4rem; letter-spacing:.3px; }
+    input[type=text], input[type=email], select, textarea {
+      width:100%; padding:12px 14px;
+      border:2px solid var(--crema-dk); border-radius:2px;
+      font-family:'Lora',serif; font-size:.95rem; color:var(--testo);
+      background:#fff; outline:none;
+      transition:border-color .2s;
+    }
+    input:focus, select:focus, textarea:focus { border-color:var(--rosso); }
+    textarea { resize:vertical; min-height:130px; }
+    select { cursor:pointer; }
+    .submit-btn {
+      width:100%; padding:14px;
+      background:var(--rosso); color:#fff;
+      border:none; border-radius:2px;
+      font-family:'Lora',serif; font-size:1rem; font-weight:700;
+      cursor:pointer; letter-spacing:.5px;
+      box-shadow:4px 4px 0 var(--rosso-dk);
+      transition:transform .18s, box-shadow .18s;
+    }
+    .submit-btn:hover { transform:translateY(-2px); box-shadow:6px 6px 0 var(--rosso-dk); }
+
+    /* SUCCESS */
+    .success-msg {
+      display:none; background:#D1E7DD; color:#0A3622;
+      border:2px solid #0A3622; border-radius:3px;
+      padding:1rem 1.2rem; margin-top:1.2rem;
+      font-weight:600; font-size:.95rem;
+    }
+    .success-msg.show { display:block; }
+
+    /* SIDEBAR INFO */
+    .info-col { display:flex; flex-direction:column; gap:1.8rem; }
+    .info-box {
+      background:#fff; border:2px solid var(--crema-dk);
+      box-shadow:4px 4px 0 var(--crema-dk);
+      border-radius:4px; padding:1.6rem 1.5rem;
+    }
+    .info-box h3 {
+      font-family:'Playfair Display',serif; color:var(--marrone);
+      font-size:1.1rem; margin-bottom:.8rem;
+      display:flex; align-items:center; gap:.5rem;
+    }
+    .info-box p, .info-box li {
+      font-size:.9rem; line-height:1.7; opacity:.85;
+    }
+    .info-box ul { list-style:none; }
+    .info-box ul li { padding:4px 0; border-bottom:1px dashed var(--crema-dk); }
+    .info-box ul li:last-child { border:none; }
+    .info-box ul li::before { content:'→ '; color:var(--rosso); font-weight:700; }
+
+    /* SOCIAL */
+    .social-links { display:flex; gap:.8rem; flex-wrap:wrap; margin-top:.6rem; }
+    .social-btn {
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:8px 16px; border:2px solid var(--marrone);
+      border-radius:2px; text-decoration:none; color:var(--marrone);
+      font-family:'Lora',serif; font-weight:700; font-size:.85rem;
+      transition:background .2s, color .2s;
+    }
+    .social-btn:hover { background:var(--marrone); color:var(--crema); }
+
+    /* ARANCINO DECORAZIONE */
+    .arancino-box {
+      background:var(--oro);
+      border:2px solid var(--marrone);
+      border-radius:4px;
+      padding:1.6rem 1.5rem;
+      box-shadow:4px 4px 0 var(--marrone);
+      text-align:center;
+    }
+    .arancino-box .big-icon { font-size:3.5rem; }
+    .arancino-box p { font-style:italic; font-size:.88rem; line-height:1.6; color:var(--marrone); margin-top:.5rem; }
+
+    footer {
+      background:var(--marrone); color:var(--crema);
+      text-align:center; padding:2.5rem 1rem; font-size:.88rem;
+      border-top:4px solid var(--oro);
+    }
+    .footer-logo { font-family:'Satisfy',cursive; font-size:1.5rem; color:var(--oro); margin-bottom:.5rem; }
+    .footer-links { display:flex; gap:1.2rem; justify-content:center; margin:.8rem 0; flex-wrap:wrap; }
+    .footer-links a { color:var(--oro); text-decoration:none; }
+    .footer-links a:hover { text-decoration:underline; }
+
+    @media(max-width:700px) {
+      .contact-wrap { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">🍕 Fumetti di Sicilia</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="translation.html">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html" class="active">Contatto</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>📮 Scrivici</h1>
+  <p>Rispondiamo più in fretta di un arancino caldo — promesso.</p>
+</div>
+
+<div class="contact-wrap">
+
+  <!-- FORM -->
+  <div class="form-card">
+    <h2>Invia un Messaggio</h2>
+    <div class="field">
+      <label for="name">👤 Nome</label>
+      <input type="text" id="name" placeholder="Come ti chiami?">
+    </div>
+    <div class="field">
+      <label for="email">📧 Email</label>
+      <input type="email" id="email" placeholder="nome@esempio.com">
+    </div>
+    <div class="field">
+      <label for="topic">🏷 Argomento</label>
+      <select id="topic">
+        <option value="">— Seleziona un argomento —</option>
+        <option>Proposta di collaborazione</option>
+        <option>Suggerimento di un manga</option>
+        <option>Fan art da inviare</option>
+        <option>Segnalazione errore di traduzione</option>
+        <option>Domanda generale</option>
+        <option>Altro</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="message">✍️ Messaggio</label>
+      <textarea id="message" placeholder="Scrivi qui il tuo messaggio..."></textarea>
+    </div>
+    <button class="submit-btn" onclick="sendMessage()">📨 Invia il Messaggio</button>
+    <div class="success-msg" id="successMsg">
+      🎉 Grazie mille! Il tuo messaggio è stato inviato. Ti risponderemo presto!
+    </div>
+  </div>
+
+  <!-- INFO SIDEBAR -->
+  <div class="info-col">
+
+    <div class="info-box">
+      <h3>📬 Come Contattarci</h3>
+      <ul>
+        <li>Via il modulo qui a fianco</li>
+        <li>Email: ciao@fumettidisicilia.it</li>
+        <li>Risposta entro 48 ore</li>
+        <li>Niente spam, promesso</li>
+      </ul>
+    </div>
+
+    <div class="info-box">
+      <h3>🌐 Seguici</h3>
+      <div class="social-links">
+        <a href="#" class="social-btn">𝕏 Twitter</a>
+        <a href="#" class="social-btn">📸 Instagram</a>
+        <a href="#" class="social-btn">💬 Discord</a>
+        <a href="#" class="social-btn">▶ YouTube</a>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h3>🤝 Collaborazioni</h3>
+      <p>Siamo sempre aperti a collaborare con:</p>
+      <ul style="margin-top:.6rem">
+        <li>Autori e illustratori</li>
+        <li>Traduttori appassionati</li>
+        <li>Siti e blog di manga</li>
+        <li>Editori italiani di settore</li>
+      </ul>
+    </div>
+
+    <div class="arancino-box">
+      <div class="big-icon">🍊</div>
+      <p>«Ogni grande traduzione comincia con una parola, ogni grande amicizia con un messaggio.»<br>
+      <strong>— Redazione Fumetti di Sicilia</strong></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- TILE ROW DIVIDER -->
+<div style="height:18px; background:repeating-linear-gradient(90deg, var(--rosso) 0,var(--rosso) 18px, var(--oro) 18px,var(--oro) 36px, var(--verde) 36px,var(--verde) 54px, var(--crema) 54px,var(--crema) 72px);"></div>
+
+<footer>
+  <div class="footer-logo">🍕 Fumetti di Sicilia</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="translation.html">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html">Contatto</a>
+  </div>
+  <p style="opacity:.6; font-size:.82rem;">© 2024 Fumetti di Sicilia · Fatto con ❤️ e molto peperoncino</p>
+</footer>
+
+<script>
+function sendMessage() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const topic = document.getElementById('topic').value;
+  const msg = document.getElementById('message').value.trim();
+  if (!name || !email || !topic || !msg) {
+    alert('Per favore compila tutti i campi prima di inviare! 😊');
+    return;
+  }
+  document.getElementById('successMsg').classList.add('show');
+  document.getElementById('name').value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('topic').value = '';
+  document.getElementById('message').value = '';
+}
+</script>
+</body>
+</html>
