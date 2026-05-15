@@ -33,7 +33,7 @@
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+    /* ── NAV（PC用スタイルは元のまま）── */
     nav {
       background: var(--rosso);
       display: flex;
@@ -69,6 +69,58 @@
       color: var(--oro);
     }
 
+    /* ☰ ボタン：PCでは完全に非表示 */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: var(--crema);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    /* 開いたとき「×」に変形 */
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* ── モバイルだけ変わる部分（640px以下）── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+
+      /* ☰ を表示 */
+      .nav-hamburger { display: flex; }
+
+      /* リンク群を縦のドロワーに変える */
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: var(--rosso);
+        flex-direction: column;
+        gap: 0;
+        border-bottom: 4px solid var(--oro);
+        box-shadow: 0 8px 24px var(--ombra);
+        z-index: 150;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(255,255,255,.15);
+        font-size: 1rem;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+    }
+
     /* ── HERO ── */
     .hero {
       position: relative;
@@ -80,7 +132,6 @@
       overflow: hidden;
       padding: 4rem 2rem;
     }
-    /* Sicilian tile border top+bottom */
     .hero::before, .hero::after {
       content: '';
       position: absolute; left: 0; right: 0;
@@ -94,7 +145,6 @@
     .hero::before { top: 0; }
     .hero::after  { bottom: 0; }
 
-    /* Big decorative circle behind */
     .hero-ring {
       position: absolute;
       width: 600px; height: 600px;
@@ -321,7 +371,6 @@
     footer a:hover { text-decoration: underline; }
     .footer-links { display: flex; gap: 1.2rem; justify-content: center; margin: .8rem 0; flex-wrap: wrap; }
 
-    /* Scroll reveal */
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
     .revealed { opacity: 1; transform: none; }
   </style>
@@ -330,7 +379,15 @@
 
 <nav>
   <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
-  <div class="nav-links">
+
+  <!-- ☰ ボタン：モバイルのみ表示される -->
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="nav-links" id="navLinks">
     <a href="index.html" class="active">Home</a>
     <a href="translation.html">Traduzioni</a>
     <a href="blog.html">Blog</a>
@@ -353,10 +410,8 @@
   </div>
 </section>
 
-<!-- SECTION TITLE -->
 <div class="sep"><span>Cosa Offriamo</span></div>
 
-<!-- CARDS -->
 <div class="features">
   <a href="translation.html" class="card reveal">
     <div class="card-ribbon"></div>
@@ -384,7 +439,6 @@
   </a>
 </div>
 
-<!-- LATEST STRIP -->
 <section class="latest">
   <h2>Ultima Uscita</h2>
   <p>Sfoglia le ultime tavole pubblicate questa settimana</p>
@@ -414,7 +468,6 @@
   <a href="translation.html" class="btn btn-secondary" style="margin-top:1.5rem; color:var(--crema); border-color:var(--crema);">Leggi tutto →</a>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">🍕 Fumetti di Sicilia</div>
   <div class="footer-links">
@@ -428,10 +481,25 @@
 </footer>
 
 <script>
+  // スクロールでカード表示
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
   }, { threshold: .15 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ☰ ハンバーガーメニュー
+  const btn   = document.getElementById('navHamburger');
+  const links = document.getElementById('navLinks');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
 </script>
 </body>
 </html>
