@@ -1,166 +1,226 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog –  Fetta di Manga</title>
+  <title>Blog – Fumetti di Sicilia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Satisfy&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --rosso:#C0392B; --rosso-dk:#922B21; --terracotta:#D4693A;
-      --oro:#E8B84B; --crema:#FAF3E0; --crema-dk:#F0E6C8;
-      --marrone:#5C3317; --verde:#2E7D32; --testo:#2C1810;
-      --ombra:rgba(44,24,16,.18);
+      --rosso:    #C0392B;
+      --rosso-dk: #922B21;
+      --terracotta: #D4693A;
+      --oro:      #E8B84B;
+      --oro-lt:   #FFF3C4;
+      --crema:    #FAF3E0;
+      --crema-dk: #F0E6C8;
+      --marrone:  #5C3317;
+      --verde:    #2E7D32;
+      --testo:    #2C1810;
+      --ombra:    rgba(44,24,16,.18);
     }
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    body {
-      background-color:var(--crema);
-      background-image:
-        repeating-linear-gradient(45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%),
-        repeating-linear-gradient(-45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%);
-      background-size:28px 28px;
-      font-family:'Lora',serif; color:var(--testo);
-    }
-    nav {
-      background:var(--rosso); display:flex; align-items:center; justify-content:space-between;
-      padding:0 2.5rem; height:64px;
-      box-shadow:0 4px 16px var(--ombra); position:sticky; top:0; z-index:100;
-      border-bottom:4px solid var(--oro);
-    }
-    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; text-decoration:none; }
-    .nav-links { display:flex; gap:1.6rem; }
-    .nav-links a {
-      color:var(--crema); text-decoration:none; font-family:'Lora',serif;
-      font-size:.95rem; font-weight:600; padding:4px 0;
-      border-bottom:2px solid transparent; transition:border-color .25s, color .25s;
-    }
-    .nav-links a:hover, .nav-links a.active { border-color:var(--oro); color:var(--oro); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    body {
+      font-family: 'Lora', serif;
+      background-color: var(--crema);
+      background-image:
+        repeating-linear-gradient(45deg, rgba(216,167,80,.07) 0, rgba(216,167,80,.07) 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-45deg, rgba(216,167,80,.07) 0, rgba(216,167,80,.07) 1px, transparent 0, transparent 50%);
+      background-size: 28px 28px;
+      color: var(--testo);
+      overflow-x: hidden;
+    }
+
+    /* ── TILE STRIPE ── */
+    .tile-bar {
+      height: 18px;
+      background: repeating-linear-gradient(90deg,
+        var(--rosso) 0, var(--rosso) 18px,
+        var(--oro) 18px, var(--oro) 36px,
+        var(--verde) 36px, var(--verde) 54px,
+        var(--crema) 54px, var(--crema) 72px);
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--rosso);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 64px;
+      box-shadow: 0 4px 16px var(--ombra);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 4px solid var(--oro);
+    }
+    .nav-logo {
+      font-family: 'Satisfy', cursive;
+      color: var(--crema); font-size: 1.7rem;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 1.6rem; }
+    .nav-links a {
+      color: var(--crema); text-decoration: none;
+      font-family: 'Lora', serif; font-size: .95rem; font-weight: 600;
+      padding: 4px 0; border-bottom: 2px solid transparent;
+      transition: border-color .25s, color .25s;
+    }
+    .nav-links a:hover, .nav-links a.active { border-color: var(--oro); color: var(--oro); }
+
+    /* ── PAGE HEADER ── */
     .page-header {
-      background:var(--terracotta); color:var(--crema);
-      text-align:center; padding:3.5rem 2rem;
-      border-bottom:6px solid var(--oro); position:relative; overflow:hidden;
+      background: var(--marrone); color: var(--crema);
+      text-align: center; padding: 3rem 2rem 2.5rem;
+      border-bottom: 6px solid var(--oro);
+      position: relative; overflow: hidden;
     }
     .page-header::before {
-      content:'✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️';
-      position:absolute; bottom:-10px; left:0; right:0;
-      font-size:4rem; opacity:.08; white-space:nowrap; overflow:hidden;
+      content: '✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️';
+      position: absolute; bottom: -6px; left: 0; right: 0;
+      font-size: 3.5rem; opacity: .06; white-space: nowrap; overflow: hidden;
+      letter-spacing: 14px; line-height: 1.6;
     }
-    .page-header h1 { font-family:'Satisfy',cursive; font-size:3rem; color:var(--crema); }
-    .page-header p { font-style:italic; opacity:.85; margin-top:.5rem; }
+    .page-header h1 {
+      font-family: 'Satisfy', cursive; font-size: 2.8rem;
+      color: var(--oro); position: relative;
+    }
+    .page-header p {
+      font-style: italic; opacity: .8; margin-top: .5rem;
+      position: relative; font-size: 1rem;
+    }
 
-    /* FEATURED POST */
-    .featured {
-      max-width:1100px; margin:3rem auto 0; padding:0 2rem;
+    /* ── MAIN CONTAINER ── */
+    .container {
+      max-width: 760px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
     }
-    .featured-card {
-      display:grid; grid-template-columns:1fr 1fr;
-      background:#fff; border:2px solid var(--crema-dk);
-      box-shadow:6px 6px 0 var(--terracotta);
-      border-radius:4px; overflow:hidden;
-    }
-    .featured-img {
-      background:linear-gradient(135deg, var(--rosso) 0%, var(--marrone) 100%);
-      display:flex; align-items:center; justify-content:center;
-      font-size:7rem; min-height:280px;
-      position:relative;
-    }
-    .featured-img::after {
-      content:'IN EVIDENZA';
-      position:absolute; top:18px; left:-28px;
-      background:var(--oro); color:var(--marrone);
-      font-family:'Lora',serif; font-size:.7rem; font-weight:700;
-      letter-spacing:2px; padding:5px 40px;
-      transform:rotate(-45deg);
-    }
-    .featured-body { padding:2.5rem 2rem; }
-    .post-meta { font-size:.8rem; opacity:.65; margin-bottom:.6rem; }
-    .post-cat {
-      display:inline-block; background:var(--rosso); color:#fff;
-      padding:3px 12px; font-size:.75rem; font-weight:700;
-      border-radius:2px; margin-right:.5rem;
-    }
-    .featured-body h2 {
-      font-family:'Playfair Display',serif; font-size:1.7rem;
-      color:var(--marrone); line-height:1.3; margin:.8rem 0;
-    }
-    .featured-body p { line-height:1.75; opacity:.85; margin-bottom:1.2rem; }
-    .read-more {
-      display:inline-block; background:var(--rosso); color:#fff;
-      padding:10px 22px; border-radius:2px; text-decoration:none;
-      font-weight:700; font-size:.9rem;
-      box-shadow:3px 3px 0 var(--rosso-dk);
-      transition:transform .18s, box-shadow .18s;
-    }
-    .read-more:hover { transform:translateY(-2px); box-shadow:5px 5px 0 var(--rosso-dk); }
 
-    /* GRID */
-    .blog-section-title {
-      max-width:1100px; margin:3rem auto 1rem; padding:0 2rem;
-      font-family:'Satisfy',cursive; font-size:2rem; color:var(--terracotta);
-      border-bottom:2px solid var(--oro); padding-bottom:.6rem;
+    /* ── ENTRY CARD ── */
+    .entry-card {
+      background: #fff;
+      border: 2px solid var(--marrone);
+      border-radius: 4px;
+      box-shadow: 5px 5px 0 var(--crema-dk);
+      overflow: hidden;
+      transition: transform .18s, box-shadow .18s;
+      animation: fadeUp .4s ease both;
     }
-    .blog-grid {
-      max-width:1100px; margin:0 auto 5rem; padding:0 2rem;
-      display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr));
-      gap:1.8rem;
+    .entry-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 var(--terracotta);
     }
-    .post-card {
-      background:#fff; border:2px solid var(--crema-dk);
-      border-radius:4px; overflow:hidden;
-      box-shadow:4px 4px 0 var(--crema-dk);
-      transition:transform .2s, box-shadow .2s;
-      text-decoration:none; color:inherit;
-      display:flex; flex-direction:column;
-    }
-    .post-card:hover { transform:translate(-3px,-3px); box-shadow:7px 7px 0 var(--terracotta); }
-    .post-thumb {
-      height:160px;
-      display:flex; align-items:center; justify-content:center;
-      font-size:4.5rem;
-    }
-    .post-body { padding:1.4rem 1.4rem 1.6rem; flex:1; display:flex; flex-direction:column; }
-    .post-body h3 { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--marrone); margin:.4rem 0 .6rem; line-height:1.35; }
-    .post-body p { font-size:.88rem; opacity:.8; line-height:1.7; flex:1; }
-    .post-footer { margin-top:1rem; font-size:.78rem; opacity:.6; }
 
-    /* SIDEBAR quote */
-    .quote-box {
-      max-width:1100px; margin:0 auto 3rem; padding:0 2rem;
-    }
-    .quote-inner {
-      background:var(--marrone); color:var(--crema);
-      border-left:8px solid var(--oro);
-      padding:2rem 2.5rem; border-radius:2px;
-      font-size:1.2rem; font-style:italic; line-height:1.7;
-      position:relative;
-    }
-    .quote-inner::before { content:'"'; font-size:5rem; position:absolute; top:-10px; left:10px; opacity:.15; font-family:serif; }
+    .entry-card:nth-child(1) { animation-delay: .05s; }
+    .entry-card:nth-child(2) { animation-delay: .10s; }
+    .entry-card:nth-child(3) { animation-delay: .15s; }
+    .entry-card:nth-child(4) { animation-delay: .20s; }
+    .entry-card:nth-child(5) { animation-delay: .25s; }
+    .entry-card:nth-child(6) { animation-delay: .30s; }
 
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ── CARD HEADER ── */
+    .entry-header {
+      background: var(--oro);
+      border-bottom: 2px solid var(--marrone);
+      padding: 9px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .entry-date {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--marrone);
+    }
+    .entry-tag {
+      margin-left: auto;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: var(--marrone);
+      color: var(--oro);
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    /* ── CARD BODY ── */
+    .entry-body {
+      padding: 1.1rem 1.2rem 1.3rem;
+    }
+    .entry-body p {
+      font-size: .97rem;
+      line-height: 1.8;
+      color: #3a1e0a;
+    }
+    .entry-body strong {
+      color: var(--rosso);
+      font-weight: 700;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 4px 0;
+    }
+    .section-divider span {
+      font-family: 'Satisfy', cursive;
+      font-size: 1rem;
+      color: var(--marrone);
+      opacity: .4;
+      white-space: nowrap;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--marrone) 0, var(--marrone) 6px,
+        transparent 6px, transparent 12px
+      );
+      opacity: .18;
+    }
+
+    /* ── FOOTER ── */
     footer {
-      background:var(--marrone); color:var(--crema);
-      text-align:center; padding:2.5rem 1rem; font-size:.88rem;
-      border-top:4px solid var(--oro);
+      background: var(--marrone); color: var(--crema);
+      text-align: center; padding: 2.5rem 1rem; font-size: .88rem;
+      border-top: 4px solid var(--oro);
     }
-    .footer-logo { font-family:'Satisfy',cursive; font-size:1.5rem; color:var(--oro); margin-bottom:.5rem; }
-    .footer-links { display:flex; gap:1.2rem; justify-content:center; margin:.8rem 0; flex-wrap:wrap; }
-    .footer-links a { color:var(--oro); text-decoration:none; }
-    .footer-links a:hover { text-decoration:underline; }
+    .footer-logo {
+      font-family: 'Satisfy', cursive; font-size: 1.5rem;
+      color: var(--oro); margin-bottom: .5rem;
+    }
+    .footer-links { display: flex; gap: 1.2rem; justify-content: center; margin: .8rem 0; flex-wrap: wrap; }
+    .footer-links a { color: var(--oro); text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; }
 
-    .reveal { opacity:0; transform:translateY(30px); transition:opacity .6s ease, transform .6s ease; }
-    .revealed { opacity:1; transform:none; }
-
-    @media(max-width:680px) {
-      .featured-card { grid-template-columns:1fr; }
-      .featured-img { min-height:180px; }
+    @media (max-width: 560px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: .85rem; }
     }
   </style>
 </head>
 <body>
 
+<div class="tile-bar"></div>
+
 <nav>
-  <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
+  <a class="nav-logo" href="index.html">🍕 Fumetti di Sicilia</a>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="translation.html">Traduzioni</a>
@@ -171,105 +231,75 @@
 </nav>
 
 <div class="page-header">
-  <h1>✍️ Il Nostro Blog</h1>
-  <p>Manga, cultura giapponese e sapori siciliani — mescolati insieme</p>
+  <h1>✍️ Blog</h1>
+  <p>翻訳の記録、気づき、イタリア語の小ネタ。</p>
 </div>
 
-<!-- FEATURED -->
-<div class="featured reveal">
-  <div class="featured-card">
-    <div class="featured-img">🌋</div>
-    <div class="featured-body">
-      <div>
-        <span class="post-cat">In Evidenza</span>
-        <span class="post-meta">15 Novembre 2024 · 8 min di lettura</span>
-      </div>
-      <h2>Perché il Manga è il nuovo Arancino: un'esperienza di strada che conquista il mondo</h2>
-      <p>Come il re degli street food siciliani, il manga è nato dalla strada, dall'urgenza popolare di raccontare storie. Due culture lontane, un'anima comune fatta di passione, colori e sapori forti. Un viaggio tra Palermo e Tokyo senza biglietto aereo.</p>
-      <a href="#" class="read-more">Leggi l'articolo →</a>
+<div class="container">
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 05 · 10</span>
+      <span class="entry-tag">Translation</span>
+    </div>
+    <div class="entry-body">
+      <p>I watched Janbo from Disney movie. I didn't know the Disney character Janbo's name came from 'dumb' and 'jumbo'. It was a cute movie.</p>
     </div>
   </div>
-</div>
 
-<!-- QUOTE -->
-<div class="quote-box reveal" style="margin-top:3rem;">
-  <div class="quote-inner">
-    Il manga ti prende per mano e ti porta altrove — proprio come fa il mare di Cefalù all'alba.
-    <br><span style="font-size:.9rem; opacity:.7; font-style:normal;">— Redazione Fumetti di Sicilia</span>
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 22</span>
+      <span class="entry-tag">Translation</span>
+    </div>
+    <div class="entry-body">
+      <p>The dialogue sections came back with barely any corrections — which honestly felt great. It's making me think manga translation might genuinely be something I want to pursue.</p>
+    </div>
   </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 22</span>
+      <span class="entry-tag">Humor</span>
+    </div>
+    <div class="entry-body">
+      <p>Turns out if you translate a gag with too much energy, it gets rejected. So what's the "safe zone" for comedy? I'm not sure there is one — but I want to slowly get better at landing the joke without losing the punch.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 21</span>
+      <span class="entry-tag">Nuance</span>
+    </div>
+    <div class="entry-body">
+      <p>Personally, I feel like <strong>「あんたなんか人間じゃない」</strong> is best captured as <strong>"You are a monster."</strong> — it carries the same emotional weight without being too literal.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 20</span>
+      <span class="entry-tag">Vocabulary</span>
+    </div>
+    <div class="entry-body">
+      <p>Still wrestling with how to translate <strong>"indeed"</strong> and <strong>"How iconic"</strong> naturally. For now, the plan is to just do a lot of practice translations and focus on speed without dropping quality — improvement comes with reps.</p>
+    </div>
+  </div>
+
+  <!-- 追加エントリーはここにコピペで増やす -->
+
 </div>
 
-<!-- ARTICLE GRID -->
-<h2 class="blog-section-title">Articoli Recenti</h2>
-<div class="blog-grid">
-
-  <a href="#" class="post-card reveal">
-    <div class="post-thumb" style="background:linear-gradient(135deg,#fff5cc,#ffe08a)">🍊</div>
-    <div class="post-body">
-      <span class="post-cat">Cultura</span>
-      <div class="post-meta">10 Nov 2024</div>
-      <h3>Gli agrumi della Conca d'Oro e il simbolismo del manga shonen</h3>
-      <p>La lotta per la crescita, la famiglia e la rivalità: quanto c'è di siculo nel protagonista shonen medio? Un'analisi inaspettata.</p>
-      <div class="post-footer">⏱ 5 min · 🏷 Cultura, Analisi</div>
-    </div>
-  </a>
-
-  <a href="#" class="post-card reveal">
-    <div class="post-thumb" style="background:linear-gradient(135deg,#ffe0d0,#ffb49a)">🗡️</div>
-    <div class="post-body">
-      <span class="post-cat">Traduzione</span>
-      <div class="post-meta">3 Nov 2024</div>
-      <h3>I 10 termini giapponesi più difficili da tradurre in italiano</h3>
-      <p>Da «木漏れ日» a «侘び寂び»: un glossario appassionato per traduttori manga in erba. Con esempi pratici dal nostro lavoro.</p>
-      <div class="post-footer">⏱ 7 min · 🏷 Traduzione, Guida</div>
-    </div>
-  </a>
-
-  <a href="#" class="post-card reveal">
-    <div class="post-thumb" style="background:linear-gradient(135deg,#d0f0d0,#80c080)">🎌</div>
-    <div class="post-body">
-      <span class="post-cat">Viaggio</span>
-      <div class="post-meta">25 Ott 2024</div>
-      <h3>Da Catania a Kyoto: l'itinerario manga che (forse) faremo un giorno</h3>
-      <p>Sognare non costa nulla. Un viaggio immaginario tra le librerie di Akihabara e i mercati di Siracusa. Con mappa illustrata.</p>
-      <div class="post-footer">⏱ 6 min · 🏷 Viaggio, Sogni</div>
-    </div>
-  </a>
-
-  <a href="#" class="post-card reveal">
-    <div class="post-thumb" style="background:linear-gradient(135deg,#ffe0f0,#ffb0d0)">💭</div>
-    <div class="post-body">
-      <span class="post-cat">Riflessione</span>
-      <div class="post-meta">18 Ott 2024</div>
-      <h3>Nonne siciliane e nonni di manga: due culture del racconto orale</h3>
-      <p>La «nonna» è un archetipo universale. Ma quanto è simile la nonna di Palermo a quella di un manga slice-of-life ambientato a Kyushu?</p>
-      <div class="post-footer">⏱ 4 min · 🏷 Riflessione</div>
-    </div>
-  </a>
-
-  <a href="#" class="post-card reveal">
-    <div class="post-thumb" style="background:linear-gradient(135deg,#e0e8ff,#b0c0ff)">📚</div>
-    <div class="post-body">
-      <span class="post-cat">Consiglio</span>
-      <div class="post-meta">11 Ott 2024</div>
-      <h3>5 manga da leggere se ami la cucina italiana — anche se non l'hai mai cucinata</h3>
-      <p>Dall'Iron Chef all'humile ricotta, la cucina è un linguaggio universale. Questi manga ti faranno venire fame e voglia di tradurre.</p>
-      <div class="post-footer">⏱ 5 min · 🏷 Consiglio, Cibo</div>
-    </div>
-  </a>
-
-  <a href="#" class="post-card reveal">
-    <div class="post-thumb" style="background:linear-gradient(135deg,#fff0c0,#ffd040)">⭐</div>
-    <div class="post-body">
-      <span class="post-cat">Novità</span>
-      <div class="post-meta">1 Ott 2024</div>
-      <h3>Il nostro primo anniversario: grazie e futuro di Fumetti di Sicilia</h3>
-      <p>Un anno di traduzioni, errori, risate e lettori fantastici. Guardiamo indietro con gratitudine e avanti con ambizione.</p>
-      <div class="post-footer">⏱ 3 min · 🏷 Community, Novità</div>
-    </div>
-  </a>
-
-</div>
+<div class="tile-bar"></div>
 
 <footer>
   <div class="footer-logo">🍕 Fumetti di Sicilia</div>
@@ -283,11 +313,5 @@
   <p style="opacity:.6; font-size:.82rem;">© 2024 Fumetti di Sicilia · Fatto con ❤️ e molto peperoncino</p>
 </footer>
 
-<script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
-  }, { threshold:.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
 </body>
 </html>
