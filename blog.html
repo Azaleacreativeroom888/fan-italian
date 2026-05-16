@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog – Fumetti di Sicilia</title>
+  <title>Blog – Fetta di Manga</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Satisfy&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <style>
@@ -12,7 +12,6 @@
       --rosso-dk: #922B21;
       --terracotta: #D4693A;
       --oro:      #E8B84B;
-      --oro-lt:   #FFF3C4;
       --crema:    #FAF3E0;
       --crema-dk: #F0E6C8;
       --marrone:  #5C3317;
@@ -33,12 +32,12 @@
       overflow-x: hidden;
     }
 
-    /* ── TILE STRIPE ── */
+    /* ── 赤黄緑タイルライン ── */
     .tile-bar {
-      height: 18px;
+      height: 14px;
       background: repeating-linear-gradient(90deg,
-        var(--rosso) 0, var(--rosso) 18px,
-        var(--oro) 18px, var(--oro) 36px,
+        var(--rosso) 0,  var(--rosso) 18px,
+        var(--oro)   18px, var(--oro)  36px,
         var(--verde) 36px, var(--verde) 54px,
         var(--crema) 54px, var(--crema) 72px);
     }
@@ -55,22 +54,53 @@
     .nav-logo {
       font-family: 'Satisfy', cursive;
       color: var(--crema); font-size: 1.7rem;
+      letter-spacing: 1px;
       text-decoration: none;
     }
     .nav-links { display: flex; gap: 1.6rem; }
     .nav-links a {
       color: var(--crema); text-decoration: none;
       font-family: 'Lora', serif; font-size: .95rem; font-weight: 600;
-      padding: 4px 0; border-bottom: 2px solid transparent;
+      letter-spacing: .5px; padding: 4px 0;
+      border-bottom: 2px solid transparent;
       transition: border-color .25s, color .25s;
     }
     .nav-links a:hover, .nav-links a.active { border-color: var(--oro); color: var(--oro); }
+
+    /* ── ハンバーガー（PCでは非表示）── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 26px; height: 3px;
+      background: var(--crema); border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none; position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: var(--rosso); flex-direction: column; gap: 0;
+        border-bottom: 4px solid var(--oro);
+        box-shadow: 0 8px 24px var(--ombra); z-index: 150;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.15); font-size: 1rem; }
+      .nav-links a:last-child { border-bottom: none; }
+    }
 
     /* ── PAGE HEADER ── */
     .page-header {
       background: var(--marrone); color: var(--crema);
       text-align: center; padding: 3rem 2rem 2.5rem;
-      border-bottom: 6px solid var(--oro);
       position: relative; overflow: hidden;
     }
     .page-header::before {
@@ -112,7 +142,6 @@
       transform: translate(-2px, -2px);
       box-shadow: 7px 7px 0 var(--terracotta);
     }
-
     .entry-card:nth-child(1) { animation-delay: .05s; }
     .entry-card:nth-child(2) { animation-delay: .10s; }
     .entry-card:nth-child(3) { animation-delay: .15s; }
@@ -130,67 +159,40 @@
       background: var(--oro);
       border-bottom: 2px solid var(--marrone);
       padding: 9px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
     }
     .entry-date {
       font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: var(--marrone);
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 1.5px; color: var(--marrone);
     }
     .entry-tag {
       margin-left: auto;
-      font-size: .7rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      background: var(--marrone);
-      color: var(--oro);
-      padding: 3px 10px;
-      border-radius: 2px;
+      font-size: .7rem; font-weight: 800;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      background: var(--marrone); color: var(--oro);
+      padding: 3px 10px; border-radius: 2px;
     }
 
     /* ── CARD BODY ── */
-    .entry-body {
-      padding: 1.1rem 1.2rem 1.3rem;
-    }
-    .entry-body p {
-      font-size: .97rem;
-      line-height: 1.8;
-      color: #3a1e0a;
-    }
-    .entry-body strong {
-      color: var(--rosso);
-      font-weight: 700;
-    }
+    .entry-body { padding: 1.1rem 1.2rem 1.3rem; }
+    .entry-body p { font-size: .97rem; line-height: 1.8; color: #3a1e0a; }
+    .entry-body strong { color: var(--rosso); font-weight: 700; }
 
     /* ── SECTION DIVIDER ── */
     .section-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 4px 0;
+      display: flex; align-items: center; gap: 12px; margin: 4px 0;
     }
     .section-divider span {
-      font-family: 'Satisfy', cursive;
-      font-size: 1rem;
-      color: var(--marrone);
-      opacity: .4;
-      white-space: nowrap;
+      font-family: 'Satisfy', cursive; font-size: 1rem;
+      color: var(--marrone); opacity: .4; white-space: nowrap;
     }
     .section-divider::before,
     .section-divider::after {
-      content: '';
-      flex: 1;
-      height: 2px;
-      background: repeating-linear-gradient(
-        90deg,
+      content: ''; flex: 1; height: 2px;
+      background: repeating-linear-gradient(90deg,
         var(--marrone) 0, var(--marrone) 6px,
-        transparent 6px, transparent 12px
-      );
+        transparent 6px, transparent 12px);
       opacity: .18;
     }
 
@@ -200,28 +202,20 @@
       text-align: center; padding: 2.5rem 1rem; font-size: .88rem;
       border-top: 4px solid var(--oro);
     }
-    .footer-logo {
-      font-family: 'Satisfy', cursive; font-size: 1.5rem;
-      color: var(--oro); margin-bottom: .5rem;
-    }
+    .footer-logo { font-family: 'Satisfy', cursive; font-size: 1.5rem; color: var(--oro); margin-bottom: .5rem; }
     .footer-links { display: flex; gap: 1.2rem; justify-content: center; margin: .8rem 0; flex-wrap: wrap; }
     .footer-links a { color: var(--oro); text-decoration: none; }
     .footer-links a:hover { text-decoration: underline; }
-
-    @media (max-width: 560px) {
-      nav { padding: 0 1rem; }
-      .nav-links { gap: 1rem; }
-      .nav-links a { font-size: .85rem; }
-    }
   </style>
 </head>
 <body>
 
-<div class="tile-bar"></div>
-
 <nav>
-  <a class="nav-logo" href="index.html">🍕 Fumetti di Sicilia</a>
-  <div class="nav-links">
+  <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
     <a href="index.html">Home</a>
     <a href="translation.html">Traduzioni</a>
     <a href="blog.html" class="active">Blog</a>
@@ -230,10 +224,16 @@
   </div>
 </nav>
 
+<!-- ヒーローヘッダーの上 -->
+<div class="tile-bar"></div>
+
 <div class="page-header">
   <h1>✍️ Blog</h1>
-  <p>Appunti di traduzione, riflessioni e piccole curiosità sull’italiano.</p>
+  <p>Appunti di traduzione, riflessioni e piccole curiosità sull'italiano.</p>
 </div>
+
+<!-- ヒーローヘッダーの下 -->
+<div class="tile-bar"></div>
 
 <div class="container">
 
@@ -243,7 +243,67 @@
       <span class="entry-tag">Translation</span>
     </div>
     <div class="entry-body">
-      <p>Ciao, ho iniziato un sito web per imparare l’italiano!</p>
+      <p>Ciao, ho iniziato un sito web per imparare l'italiano!</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 05 · 10</span>
+      <span class="entry-tag">Translation</span>
+    </div>
+    <div class="entry-body">
+      <p>I watched Janbo from Disney movie. I didn't know the Disney character Janbo's name came from 'dumb' and 'jumbo'. It was a cute movie.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 22</span>
+      <span class="entry-tag">Translation</span>
+    </div>
+    <div class="entry-body">
+      <p>The dialogue sections came back with barely any corrections — which honestly felt great. It's making me think manga translation might genuinely be something I want to pursue.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 22</span>
+      <span class="entry-tag">Humor</span>
+    </div>
+    <div class="entry-body">
+      <p>Turns out if you translate a gag with too much energy, it gets rejected. So what's the "safe zone" for comedy? I'm not sure there is one — but I want to slowly get better at landing the joke without losing the punch.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 21</span>
+      <span class="entry-tag">Nuance</span>
+    </div>
+    <div class="entry-body">
+      <p>Personally, I feel like <strong>「あんたなんか人間じゃない」</strong> is best captured as <strong>"You are a monster."</strong> — it carries the same emotional weight without being too literal.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 20</span>
+      <span class="entry-tag">Vocabulary</span>
+    </div>
+    <div class="entry-body">
+      <p>Still wrestling with how to translate <strong>"indeed"</strong> and <strong>"How iconic"</strong> naturally. For now, the plan is to just do a lot of practice translations and focus on speed without dropping quality — improvement comes with reps.</p>
     </div>
   </div>
 
@@ -251,10 +311,8 @@
 
 </div>
 
-<div class="tile-bar"></div>
-
 <footer>
-  <div class="footer-logo">🍕 Fumetti di Sicilia</div>
+  <div class="footer-logo">🍕 Fetta di Manga</div>
   <div class="footer-links">
     <a href="index.html">Home</a>
     <a href="translation.html">Traduzioni</a>
@@ -262,8 +320,22 @@
     <a href="gallery.html">Galleria</a>
     <a href="contact.html">Contatto</a>
   </div>
-  <p style="opacity:.6; font-size:.82rem;">© 2024 Fumetti di Sicilia · Fatto con ❤️ e molto peperoncino</p>
+  <p style="opacity:.6; font-size:.82rem;">© 2024 Fetta di Manga · Fatto con ❤️ e molto peperoncino</p>
 </footer>
 
+<script>
+  const btn   = document.getElementById('navHamburger');
+  const links = document.getElementById('navLinks');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
+</script>
 </body>
 </html>
