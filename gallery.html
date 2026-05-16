@@ -22,13 +22,25 @@
       background-size:28px 28px;
       font-family:'Lora',serif; color:var(--testo);
     }
+
+    /* ── 赤黄緑タイルライン ── */
+    .tile-bar {
+      height:14px;
+      background: repeating-linear-gradient(90deg,
+        var(--rosso) 0, var(--rosso) 18px,
+        var(--oro)   18px, var(--oro)  36px,
+        var(--verde) 36px, var(--verde) 54px,
+        var(--crema) 54px, var(--crema) 72px);
+    }
+
+    /* ── NAV ── */
     nav {
       background:var(--rosso); display:flex; align-items:center; justify-content:space-between;
       padding:0 2.5rem; height:64px;
       box-shadow:0 4px 16px var(--ombra); position:sticky; top:0; z-index:100;
       border-bottom:4px solid var(--oro);
     }
-    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; text-decoration:none; }
+    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; letter-spacing:1px; text-decoration:none; }
     .nav-links { display:flex; gap:1.6rem; }
     .nav-links a {
       color:var(--crema); text-decoration:none; font-family:'Lora',serif;
@@ -37,10 +49,39 @@
     }
     .nav-links a:hover,.nav-links a.active { border-color:var(--oro); color:var(--oro); }
 
+    /* ── ハンバーガー ── */
+    .nav-hamburger {
+      display:none; flex-direction:column; justify-content:center; gap:5px;
+      background:none; border:none; cursor:pointer; padding:4px;
+    }
+    .nav-hamburger span {
+      display:block; width:26px; height:3px;
+      background:var(--crema); border-radius:2px;
+      transition:transform .3s, opacity .3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity:0; }
+    .nav-hamburger.open span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+    @media (max-width:640px) {
+      nav { padding:0 1.2rem; }
+      .nav-hamburger { display:flex; }
+      .nav-links {
+        display:none; position:fixed;
+        top:64px; left:0; right:0;
+        background:var(--rosso); flex-direction:column; gap:0;
+        border-bottom:4px solid var(--oro);
+        box-shadow:0 8px 24px var(--ombra); z-index:150;
+      }
+      .nav-links.open { display:flex; }
+      .nav-links a { padding:1rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.15); font-size:1rem; }
+      .nav-links a:last-child { border-bottom:none; }
+    }
+
+    /* ── PAGE HEADER ── */
     .page-header {
       background:var(--marrone); color:var(--crema);
       text-align:center; padding:3.5rem 2rem;
-      border-bottom:6px solid var(--oro); position:relative; overflow:hidden;
+      position:relative; overflow:hidden;
     }
     .tiles-bg {
       position:absolute; inset:0; opacity:.08;
@@ -51,7 +92,7 @@
     .page-header h1 { font-family:'Satisfy',cursive; font-size:3rem; color:var(--oro); position:relative; }
     .page-header p { font-style:italic; opacity:.8; margin-top:.5rem; position:relative; }
 
-    /* FILTER TABS */
+    /* ── FILTER TABS ── */
     .gallery-controls {
       max-width:1100px; margin:2.5rem auto 1.5rem; padding:0 2rem;
       display:flex; gap:1rem; flex-wrap:wrap; align-items:center;
@@ -62,43 +103,34 @@
       font-family:'Lora',serif; font-size:.9rem; font-weight:700;
       cursor:pointer; color:var(--marrone); transition:all .2s;
     }
-    .tab-btn.active, .tab-btn:hover { background:var(--rosso); color:#fff; border-color:var(--rosso); }
+    .tab-btn.active,.tab-btn:hover { background:var(--rosso); color:#fff; border-color:var(--rosso); }
 
-    /* MASONRY-LIKE GRID */
+    /* ── GALLERY GRID ── */
     .gallery-grid {
       max-width:1100px; margin:0 auto 5rem; padding:0 2rem;
       columns:3 280px; column-gap:1.4rem;
     }
     .gallery-item {
-      break-inside:avoid;
-      margin-bottom:1.4rem;
-      position:relative;
-      border:3px solid var(--marrone);
-      border-radius:3px;
-      overflow:hidden;
+      break-inside:avoid; margin-bottom:1.4rem;
+      position:relative; border:3px solid var(--marrone);
+      border-radius:3px; overflow:hidden;
       box-shadow:5px 5px 0 var(--crema-dk);
-      cursor:pointer;
-      transition:transform .2s, box-shadow .2s;
-      background:#fff;
-      display:block;
+      cursor:pointer; transition:transform .2s, box-shadow .2s;
+      background:#fff; display:block;
+      text-decoration:none; color:inherit;
     }
     .gallery-item:hover { transform:translate(-3px,-3px); box-shadow:8px 8px 0 var(--terracotta); }
     .gallery-item:hover .gallery-overlay { opacity:1; }
     .gallery-art {
-      width:100%;
-      display:flex; align-items:center; justify-content:center;
-      font-size:5rem; padding:2rem;
-      position:relative;
+      width:100%; display:flex; align-items:center; justify-content:center;
+      font-size:5rem; padding:2rem; position:relative;
     }
     .gallery-art .jp-char {
       position:absolute; bottom:6px; right:10px;
-      font-size:3.5rem; opacity:.12; font-weight:700;
-      color:var(--marrone);
+      font-size:3.5rem; opacity:.12; font-weight:700; color:var(--marrone);
     }
     .gallery-caption {
-      padding:.9rem 1rem;
-      border-top:2px solid var(--crema-dk);
-      background:#fff;
+      padding:.9rem 1rem; border-top:2px solid var(--crema-dk); background:#fff;
     }
     .gallery-caption h4 { font-family:'Playfair Display',serif; font-size:.95rem; color:var(--marrone); margin-bottom:2px; }
     .gallery-caption p { font-size:.78rem; opacity:.65; }
@@ -110,29 +142,10 @@
       color:#fff; font-size:2.2rem;
     }
 
-    /* LIGHTBOX */
-    .lightbox {
-      display:none; position:fixed; inset:0;
-      background:rgba(0,0,0,.9); z-index:999;
-      align-items:center; justify-content:center;
-      flex-direction:column; text-align:center;
-      padding:2rem;
-    }
-    .lightbox.open { display:flex; }
-    .lightbox-art { font-size:10rem; margin-bottom:1rem; }
-    .lightbox-title { font-family:'Satisfy',cursive; font-size:2rem; color:var(--oro); }
-    .lightbox-desc { color:#ccc; font-style:italic; margin-top:.5rem; max-width:480px; }
-    .lightbox-close {
-      position:absolute; top:1.5rem; right:2rem;
-      font-size:2.5rem; color:#fff; cursor:pointer;
-      background:none; border:none; line-height:1;
-    }
-
-    /* SICILIAN MAIOLICA BANNER */
+    /* ── MAIOLICA BANNER ── */
     .maiolica-banner {
       background:var(--rosso);
-      border-top:4px solid var(--oro);
-      border-bottom:4px solid var(--oro);
+      border-top:4px solid var(--oro); border-bottom:4px solid var(--oro);
       padding:2.5rem 2rem; text-align:center;
       margin-bottom:3rem; position:relative; overflow:hidden;
     }
@@ -140,12 +153,12 @@
       content:'❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋ ❋';
       position:absolute; top:0; left:0; right:0;
       font-size:1.6rem; color:var(--oro); opacity:.3;
-      letter-spacing:12px; line-height:2.2;
-      pointer-events:none;
+      letter-spacing:12px; line-height:2.2; pointer-events:none;
     }
     .maiolica-banner h2 { font-family:'Satisfy',cursive; font-size:2rem; color:var(--crema); position:relative; }
     .maiolica-banner p { color:var(--crema); opacity:.85; font-style:italic; margin-top:.4rem; position:relative; }
 
+    /* ── FOOTER ── */
     footer {
       background:var(--marrone); color:var(--crema);
       text-align:center; padding:2.5rem 1rem; font-size:.88rem;
@@ -164,7 +177,10 @@
 
 <nav>
   <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
-  <div class="nav-links">
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
     <a href="index.html">Home</a>
     <a href="translation.html">Traduzioni</a>
     <a href="blog.html">Blog</a>
@@ -173,11 +189,17 @@
   </div>
 </nav>
 
+<!-- ヒーローヘッダーの上 -->
+<div class="tile-bar"></div>
+
 <div class="page-header">
   <div class="tiles-bg"></div>
   <h1>🖼 Galleria</h1>
   <p>Tavole, illustrazioni e fan art — l'inchiostro incontra il sole di Sicilia</p>
 </div>
+
+<!-- ヒーローヘッダーの下 -->
+<div class="tile-bar"></div>
 
 <div class="gallery-controls">
   <button class="tab-btn active" onclick="filterGallery('all',this)">Tutto</button>
@@ -189,77 +211,91 @@
 
 <div class="gallery-grid" id="galleryGrid">
 
-  <div class="gallery-item reveal" data-cat="tavola" onclick="openLightbox('🌋','Il Momento dell\'Eruzione','Tavola #12 da «Fiamme Nere» Vol. 2 — la scena più emozionante dell\'arco.')">
+  <!-- 各アイテムは href="作品ページ.html" に変更 -->
+  <!-- ↓ ここのhrefをあなたが作ったhtmlファイル名に合わせてください -->
+
+  <a class="gallery-item reveal" data-cat="tavola" href="gallery_eruzione.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#ffddbb,#ffaa44); height:280px;">
       🌋<span class="jp-char">炎</span>
     </div>
     <div class="gallery-caption"><h4>Il Momento dell'Eruzione</h4><p>Tavola · Fiamme Nere Vol.2</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="cover" onclick="openLightbox('📕','Cover: Il Vento del Nord Vol.1','La nostra prima cover ufficiale, ispirata alle maioliche di Caltagirone.')">
+  <a class="gallery-item reveal" data-cat="cover" href="gallery_vento.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#ffe0c0,#c06030); height:360px;">
       📕<span class="jp-char">風</span>
     </div>
     <div class="gallery-caption"><h4>Cover: Il Vento del Nord Vol.1</h4><p>Cover · Edizione Italiana</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="sicilia" onclick="openLightbox('🍊','Citrus samurai','Fan art personale — un samurai tra gli aranci della Conca d\'Oro. Colori ispirati alle ceramiche di Taormina.')">
+  <a class="gallery-item reveal" data-cat="sicilia" href="gallery_citrus.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#fff0b0,#ffcc00); height:220px;">
       🍊<span class="jp-char">橘</span>
     </div>
     <div class="gallery-caption"><h4>Citrus Samurai</h4><p>Sicilia × Manga · Fan Art</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="fanart" onclick="openLightbox('🧜','Sirena di Catania','Fan art: la leggenda della sirena Colapesce reinventata in stile manga shojo.')">
+  <a class="gallery-item reveal" data-cat="fanart" href="gallery_sirena.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#b0e0ff,#0088cc); height:300px;">
       🧜<span class="jp-char">海</span>
     </div>
     <div class="gallery-caption"><h4>Sirena di Catania</h4><p>Fan Art · Shojo Style</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="tavola" onclick="openLightbox('🏯','Il Castello sul Vulcano','Tavola panoramica da «Samurai dell\'Etna» — disegno in bianco e nero con retino digitale.')">
+  <a class="gallery-item reveal" data-cat="tavola" href="gallery_castello.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#eee,#bbb); height:240px;">
       🏯<span class="jp-char">城</span>
     </div>
     <div class="gallery-caption"><h4>Il Castello sul Vulcano</h4><p>Tavola · Samurai dell'Etna</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="sicilia" onclick="openLightbox('🎭','Carnevale di Acireale','Personaggi manga vestiti per il Carnevale di Acireale — opera collettiva della community.')">
+  <a class="gallery-item reveal" data-cat="sicilia" href="gallery_carnevale.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#ffd0e0,#ff6090); height:200px;">
       🎭<span class="jp-char">祭</span>
     </div>
     <div class="gallery-caption"><h4>Carnevale di Acireale</h4><p>Sicilia × Manga · Community Art</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="cover" onclick="openLightbox('📗','Cover: La Ragazza del Mercato','Seconda cover della nostra collezione, con la palette cromatica del mercato della Vucciria.')">
+  <a class="gallery-item reveal" data-cat="cover" href="gallery_mercato.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#d0f0d0,#2e7d32); height:340px;">
       📗<span class="jp-char">市</span>
     </div>
     <div class="gallery-caption"><h4>Cover: La Ragazza del Mercato</h4><p>Cover · Edizione Italiana</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="fanart" onclick="openLightbox('🍕','Pizza Ninja','Parodia manga: un ninja che usa pizze come armi. Il preferito della nostra community.')">
+  <a class="gallery-item reveal" data-cat="fanart" href="gallery_ninja.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#ffe0b0,#ff8800); height:260px;">
       🍕<span class="jp-char">忍</span>
     </div>
     <div class="gallery-caption"><h4>Pizza Ninja</h4><p>Fan Art · Parodia</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
 
-  <div class="gallery-item reveal" data-cat="sicilia" onclick="openLightbox('🏺','Vaso di Gela','Illustrazione decorativa: figure manga su sfondo di ceramica greca di Gela.')">
+  <a class="gallery-item reveal" data-cat="sicilia" href="gallery_vaso.html">
     <div class="gallery-art" style="background:linear-gradient(135deg,#f0d8a0,#c08030); height:220px;">
       🏺<span class="jp-char">古</span>
     </div>
     <div class="gallery-caption"><h4>Vaso di Gela</h4><p>Sicilia × Manga · Illustrazione</p></div>
-    <div class="gallery-overlay">🔍</div>
-  </div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
+
+  <!-- 新しいアイテムを追加するときはここにコピペ -->
+  <!--
+  <a class="gallery-item reveal" data-cat="カテゴリ" href="gallery_ファイル名.html">
+    <div class="gallery-art" style="background:linear-gradient(135deg,#色1,#色2); height:250px;">
+      絵文字<span class="jp-char">漢字</span>
+    </div>
+    <div class="gallery-caption"><h4>タイトル</h4><p>説明</p></div>
+    <div class="gallery-overlay">→ 開く</div>
+  </a>
+  -->
 
 </div>
 
@@ -269,16 +305,8 @@
   Scrivici sulla pagina <a href="contact.html" style="color:var(--oro)">Contatto</a> e potrebbe finire in galleria.</p>
 </div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <div class="lightbox-art" id="lb-art"></div>
-  <div class="lightbox-title" id="lb-title"></div>
-  <div class="lightbox-desc" id="lb-desc"></div>
-</div>
-
 <footer>
-  <div class="footer-logo">🍕 Fumetti di Sicilia</div>
+  <div class="footer-logo">🍕 Fetta di Manga</div>
   <div class="footer-links">
     <a href="index.html">Home</a>
     <a href="translation.html">Traduzioni</a>
@@ -286,7 +314,7 @@
     <a href="gallery.html">Galleria</a>
     <a href="contact.html">Contatto</a>
   </div>
-  <p style="opacity:.6; font-size:.82rem;">© 2024 Fumetti di Sicilia · Fatto con ❤️ e molto peperoncino</p>
+  <p style="opacity:.6; font-size:.82rem;">© 2024 Fetta di Manga · Fatto con ❤️ e molto peperoncino</p>
 </footer>
 
 <script>
@@ -297,16 +325,19 @@
       item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
     });
   }
-  function openLightbox(art, title, desc) {
-    document.getElementById('lb-art').textContent = art;
-    document.getElementById('lb-title').textContent = title;
-    document.getElementById('lb-desc').textContent = desc;
-    document.getElementById('lightbox').classList.add('open');
-  }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-  }
-  document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+
+  const btn   = document.getElementById('navHamburger');
+  const links = document.getElementById('navLinks');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
