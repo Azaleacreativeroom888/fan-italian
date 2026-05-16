@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,16 @@
       font-family:'Lora',serif; color:var(--testo);
     }
 
+    /* ── 赤黄緑タイルライン（page-headerの上下）── */
+    .tile-bar {
+      height: 14px;
+      background: repeating-linear-gradient(90deg,
+        var(--rosso)    0,  var(--rosso)    18px,
+        var(--oro)      18px, var(--oro)    36px,
+        var(--verde)    36px, var(--verde)  54px,
+        var(--crema)    54px, var(--crema)  72px);
+    }
+
     /* ── NAV ── */
     nav {
       background:var(--rosso); display:flex; align-items:center; justify-content:space-between;
@@ -30,14 +40,52 @@
       box-shadow:0 4px 16px var(--ombra); position:sticky; top:0; z-index:100;
       border-bottom:4px solid var(--oro);
     }
-    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; text-decoration:none; }
+
+    /* ④ ロゴフォント：index.htmlと同じ Satisfy + letter-spacing */
+    .nav-logo {
+      font-family:'Satisfy',cursive;
+      color:var(--crema); font-size:1.7rem;
+      letter-spacing:1px;          /* ← index.htmlと同じ */
+      text-decoration:none;
+    }
     .nav-links { display:flex; gap:1.6rem; }
     .nav-links a {
       color:var(--crema); text-decoration:none; font-family:'Lora',serif;
-      font-size:.95rem; font-weight:600; padding:4px 0;
+      font-size:.95rem; font-weight:600; letter-spacing:.5px; padding:4px 0;
       border-bottom:2px solid transparent; transition:border-color .25s,color .25s;
     }
     .nav-links a:hover,.nav-links a.active { border-color:var(--oro); color:var(--oro); }
+
+    /* ③ ── ハンバーガーボタン（PCでは非表示）── */
+    .nav-hamburger {
+      display:none;
+      flex-direction:column; justify-content:center; gap:5px;
+      background:none; border:none; cursor:pointer; padding:4px;
+    }
+    .nav-hamburger span {
+      display:block; width:26px; height:3px;
+      background:var(--crema); border-radius:2px;
+      transition:transform .3s, opacity .3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity:0; }
+    .nav-hamburger.open span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+
+    @media (max-width:640px) {
+      nav { padding:0 1.2rem; }
+      .nav-hamburger { display:flex; }
+      .nav-links {
+        display:none; position:fixed;
+        top:78px; /* tile-bar(14px) + nav(64px) */
+        left:0; right:0;
+        background:var(--rosso); flex-direction:column; gap:0;
+        border-bottom:4px solid var(--oro);
+        box-shadow:0 8px 24px var(--ombra); z-index:150;
+      }
+      .nav-links.open { display:flex; }
+      .nav-links a { padding:1rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.15); font-size:1rem; }
+      .nav-links a:last-child { border-bottom:none; }
+    }
 
     /* ── PAGE HEADER ── */
     .page-header {
@@ -56,167 +104,96 @@
     .page-header p { font-style:italic; opacity:.8; margin-top:.5rem; position:relative; font-size:1rem; }
 
     /* ── CONTAINER ── */
-    .container {
-      max-width: 860px;
-      margin: 3rem auto 5rem;
-      padding: 0 2rem;
-    }
+    .container { max-width:860px; margin:3rem auto 5rem; padding:0 2rem; }
 
     /* ── NOTE CARD ── */
     .note-card {
-      background: #fff;
-      border: 2px solid var(--crema-dk);
-      border-radius: 4px;
-      box-shadow: 5px 5px 0 var(--crema-dk);
-      margin-bottom: 2.2rem;
-      overflow: hidden;
-      transition: box-shadow .2s, transform .2s;
+      background:#fff; border:2px solid var(--crema-dk);
+      border-radius:4px; box-shadow:5px 5px 0 var(--crema-dk);
+      margin-bottom:2.2rem; overflow:hidden;
+      transition:box-shadow .2s, transform .2s;
     }
-    .note-card:hover {
-      box-shadow: 7px 7px 0 var(--terracotta);
-      transform: translate(-2px, -2px);
-    }
+    .note-card:hover { box-shadow:7px 7px 0 var(--terracotta); transform:translate(-2px,-2px); }
 
-    /* ── CARD HEADER: Japanese original ── */
+    /* ── CARD HEADER ── */
     .note-header {
-      background: var(--marrone);
-      color: var(--crema);
-      padding: 1rem 1.6rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
+      background:var(--marrone); color:var(--crema);
+      padding:1rem 1.6rem; display:flex; align-items:flex-start; gap:1rem;
     }
     .note-number {
-      background: var(--oro);
-      color: var(--marrone);
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: .85rem;
-      border-radius: 50%;
-      width: 32px; height: 32px;
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
+      background:var(--oro); color:var(--marrone);
+      font-family:'Playfair Display',serif; font-weight:700; font-size:.85rem;
+      border-radius:50%; width:32px; height:32px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
     }
-    .note-jp {
-      font-size: 1.15rem;
-      font-style: italic;
-      line-height: 1.5;
-      font-family: 'Lora', serif;
-      letter-spacing: .02em;
-    }
+    .note-jp { font-size:1.15rem; font-style:italic; line-height:1.5; font-family:'Lora',serif; letter-spacing:.02em; }
     .note-jp small {
-      display: block;
-      font-size: .78rem;
-      opacity: .6;
-      font-style: normal;
-      margin-top: 3px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
+      display:block; font-size:.78rem; opacity:.6; font-style:normal;
+      margin-top:3px; letter-spacing:.5px; text-transform:uppercase;
     }
 
     /* ── ITALIAN TRANSLATION BAND ── */
     .note-it {
-      background: var(--rosso);
-      color: var(--crema);
-      padding: .9rem 1.6rem .9rem 4.2rem;
-      font-size: 1.05rem;
-      font-style: italic;
-      line-height: 1.5;
-      border-top: 2px solid var(--rosso-dk);
-      border-bottom: 2px solid var(--rosso-dk);
-      position: relative;
+      background:var(--rosso); color:var(--crema);
+      padding:.9rem 1.6rem .9rem 4.2rem;
+      font-size:1.05rem; font-style:italic; line-height:1.5;
+      border-top:2px solid var(--rosso-dk); border-bottom:2px solid var(--rosso-dk);
+      position:relative;
     }
     .note-it::before {
-      content: '🇮🇹';
-      position: absolute; left: 1.4rem; top: 50%; transform: translateY(-50%);
-      font-size: 1.2rem; font-style: normal;
+      content:'🇮🇹';
+      position:absolute; left:1.4rem; top:50%; transform:translateY(-50%);
+      font-size:1.2rem; font-style:normal;
     }
 
     /* ── ACCORDION TOGGLE ── */
     .toggle-btn {
-      background: none; border: none;
-      color: var(--marrone); cursor: pointer;
-      font-family: 'Lora', serif; font-size: .82rem; font-weight: 700;
-      padding: .7rem 1.6rem;
-      width: 100%; text-align: left;
-      border-top: 1px solid var(--crema-dk);
-      display: flex; align-items: center; gap: .5rem;
-      transition: background .15s;
+      background:none; border:none; color:var(--marrone); cursor:pointer;
+      font-family:'Lora',serif; font-size:.82rem; font-weight:700;
+      padding:.7rem 1.6rem; width:100%; text-align:left;
+      border-top:1px solid var(--crema-dk);
+      display:flex; align-items:center; gap:.5rem; transition:background .15s;
     }
-    .toggle-btn:hover { background: var(--crema-dk); }
-    .toggle-btn .arrow { font-size: .7rem; margin-left: auto; transition: transform .2s; }
-    .toggle-btn.open .arrow { transform: rotate(180deg); }
+    .toggle-btn:hover { background:var(--crema-dk); }
+    .toggle-btn .arrow { font-size:.7rem; margin-left:auto; transition:transform .2s; }
+    .toggle-btn.open .arrow { transform:rotate(180deg); }
 
     /* ── BREAKDOWN BODY ── */
-    .note-body { display: none; padding: 1.4rem 1.6rem; }
-    .note-body.open { display: block; }
-
+    .note-body { display:none; padding:1.4rem 1.6rem; }
+    .note-body.open { display:block; }
     .breakdown-title {
-      font-family: 'Playfair Display', serif;
-      font-size: .82rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--terracotta);
-      margin-bottom: 1rem;
-      padding-bottom: .4rem;
-      border-bottom: 1px solid var(--crema-dk);
+      font-family:'Playfair Display',serif; font-size:.82rem; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase; color:var(--terracotta);
+      margin-bottom:1rem; padding-bottom:.4rem; border-bottom:1px solid var(--crema-dk);
     }
 
     /* ── WORD ROW ── */
     .word-row {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: .4rem 1.2rem;
-      margin-bottom: .85rem;
-      align-items: start;
+      display:grid; grid-template-columns:180px 1fr;
+      gap:.4rem 1.2rem; margin-bottom:.85rem; align-items:start;
     }
     .word-it {
-      font-weight: 700;
-      color: var(--rosso);
-      font-family: 'Playfair Display', serif;
-      font-size: .98rem;
-      line-height: 1.4;
-      padding-top: 2px;
+      font-weight:700; color:var(--rosso);
+      font-family:'Playfair Display',serif; font-size:.98rem; line-height:1.4; padding-top:2px;
     }
-    .word-desc {
-      font-size: .9rem;
-      line-height: 1.7;
-      color: var(--testo);
-    }
-    .word-desc .jp-ref {
-      font-style: italic;
-      opacity: .65;
-      font-size: .83rem;
-    }
+    .word-desc { font-size:.9rem; line-height:1.7; color:var(--testo); }
+    .word-desc .jp-ref { font-style:italic; opacity:.65; font-size:.83rem; }
     .word-desc .grammar {
-      display: inline-block;
-      background: var(--crema-dk);
-      color: var(--marrone);
-      border-radius: 2px;
-      font-size: .72rem;
-      font-weight: 700;
-      padding: 1px 7px;
-      margin-left: 4px;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-      vertical-align: middle;
+      display:inline-block; background:var(--crema-dk); color:var(--marrone);
+      border-radius:2px; font-size:.72rem; font-weight:700;
+      padding:1px 7px; margin-left:4px; letter-spacing:.4px;
+      text-transform:uppercase; vertical-align:middle;
     }
-    .word-row + .word-row {
-      border-top: 1px dashed var(--crema-dk);
-      padding-top: .85rem;
-    }
+    .word-row + .word-row { border-top:1px dashed var(--crema-dk); padding-top:.85rem; }
 
     /* ── BACK LINK ── */
     .back-link {
-      display: inline-flex; align-items: center; gap: .4rem;
-      color: var(--rosso); text-decoration: none; font-weight: 700;
-      font-size: .9rem; margin-bottom: 2rem;
-      padding: 8px 0;
-      border-bottom: 2px solid transparent;
-      transition: border-color .2s;
+      display:inline-flex; align-items:center; gap:.4rem;
+      color:var(--rosso); text-decoration:none; font-weight:700;
+      font-size:.9rem; margin-bottom:2rem; padding:8px 0;
+      border-bottom:2px solid transparent; transition:border-color .2s;
     }
-    .back-link:hover { border-color: var(--rosso); }
+    .back-link:hover { border-color:var(--rosso); }
 
     /* ── FOOTER ── */
     footer {
@@ -233,10 +210,8 @@
     .revealed { opacity:1; transform:none; }
 
     @media(max-width:600px) {
-      .word-row { grid-template-columns: 1fr; gap:.2rem; }
-      .note-header { flex-direction: column; gap: .5rem; }
-      nav { padding: 0 1rem; }
-      .nav-links { gap: 1rem; }
+      .word-row { grid-template-columns:1fr; gap:.2rem; }
+      .note-header { flex-direction:column; gap:.5rem; }
     }
   </style>
 </head>
@@ -244,7 +219,13 @@
 
 <nav>
   <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
-  <div class="nav-links">
+
+  <!-- ③ ☰ ボタン -->
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-links" id="navLinks">
     <a href="index.html">Home</a>
     <a href="translation.html" class="active">Traduzioni</a>
     <a href="blog.html">Blog</a>
@@ -253,10 +234,13 @@
   </div>
 </nav>
 
+<div class="tile-bar"></div>
 <div class="page-header">
-  <h1>📜 Italian Translation Notes</h1>
-  <p>日本語セリフ → イタリア語訳 ＋ 単語・文法の解説</p>
+  <h1>📜 Note di Traduzione</h1>
+  <!-- ① イタリア語に変更 -->
+  <p>Dialogo originale → Traduzione italiana + Analisi grammaticale</p>
 </div>
+<div class="tile-bar"></div>
 
 <div class="container">
 
@@ -268,14 +252,16 @@
       <div class="note-number">1</div>
       <div class="note-jp">
         「よし！河童を捕まえて一攫千金目指すぞ！」
-        <small>原文 / Testo originale</small>
+        <!-- ① イタリア語に変更 -->
+        <small>Testo originale / Dialogo giapponese</small>
       </div>
     </div>
     <div class="note-it">
       「Bene! Catturerò un kappa e diventerò ricco tutto d'un colpo!」
     </div>
+    <!-- ① イタリア語に変更 -->
     <button class="toggle-btn open" onclick="toggleNote(this)">
-      <span>🔍 単語・文法の解説を見る</span><span class="arrow">▲</span>
+      <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
     </button>
     <div class="note-body open">
       <div class="breakdown-title">Analisi delle parole</div>
@@ -283,41 +269,40 @@
       <div class="word-row">
         <div class="word-it">Bene!</div>
         <div class="word-desc">
-          「よし！」に近い掛け声。<br>
-          <span class="jp-ref">英語の "Alright!" や "Okay!" に相当。</span>
+          Esclamazione equivalente a «よし！» in giapponese.<br>
+          <span class="jp-ref">Simile all'inglese "Alright!" o "Okay!"</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">Catturerò</div>
         <div class="word-desc">
-          「捕まえるぞ！」<br>
-          動詞 <em>catturare</em>（捕まえる）の未来形。
+          «Prenderò / Catturerò»<br>
+          Futuro semplice del verbo <em>catturare</em>.
           <span class="grammar">futuro semplice</span><br>
-          <span class="jp-ref">「私は捕まえるだろう」</span>
+          <span class="jp-ref">「捕まえるぞ！」→ "Prenderò sicuramente!"</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">un kappa</div>
         <div class="word-desc">
-          「河童を」<br>
-          日本文化由来のため <em>kappa</em> とそのまま使うのが自然。<br>
-          <span class="jp-ref">必要なら <em>creatura leggendaria giapponese</em>（日本の伝説の生き物）と注記可能。</span>
+          Il termine «河童» si lascia invariato come <em>kappa</em>, essendo un'entità della cultura giapponese.<br>
+          <span class="jp-ref">In alternativa: <em>creatura leggendaria giapponese</em>.</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">e diventerò ricco</div>
         <div class="word-desc">
-          「金持ちになる」<br>
-          <em>diventare ricco</em> = 裕福になる。
+          «E diventerò ricco»<br>
+          <em>diventare ricco</em> = arricchirsi.
           <span class="grammar">futuro semplice</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">tutto d'un colpo</div>
         <div class="word-desc">
-          「一攫千金」「一気に」のニュアンス。<br>
-          直訳ではなく自然なイタリア語慣用句。<br>
-          <span class="jp-ref"><em>colpo</em> = 一撃 ／ <em>tutto</em> = 全部</span>
+          Espressione idiomatica per «一攫千金» (arricchirsi in un colpo solo).<br>
+          Non è una traduzione letterale, ma rende bene il senso.<br>
+          <span class="jp-ref"><em>colpo</em> = colpo ／ <em>tutto</em> = tutto, in una volta</span>
         </div>
       </div>
     </div>
@@ -329,14 +314,14 @@
       <div class="note-number">2</div>
       <div class="note-jp">
         「借金作ってなにしてるの？」
-        <small>原文 / Testo originale</small>
+        <small>Testo originale / Dialogo giapponese</small>
       </div>
     </div>
     <div class="note-it">
       「Hai fatto dei debiti, che stai facendo?」
     </div>
     <button class="toggle-btn open" onclick="toggleNote(this)">
-      <span>🔍 単語・文法の解説を見る</span><span class="arrow">▲</span>
+      <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
     </button>
     <div class="note-body open">
       <div class="breakdown-title">Analisi delle parole</div>
@@ -344,37 +329,37 @@
       <div class="word-row">
         <div class="word-it">Hai fatto</div>
         <div class="word-desc">
-          「〜した」
+          «Hai fatto» = hai compiuto l'azione.
           <span class="grammar">passato prossimo</span><br>
-          <em>Hai</em> = 動詞 <em>avere</em>（持つ）の2人称単数（あなたは〜した）<br>
-          <em>fatto</em> = <em>fare</em>（する）の過去分詞「した」<br>
-          <span class="jp-ref">hai + fatto = 近過去（〜した）</span>
+          <em>Hai</em> = 2ª persona singolare di <em>avere</em><br>
+          <em>fatto</em> = participio passato di <em>fare</em><br>
+          <span class="jp-ref">「借金を作った」→ passato recente in italiano.</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">dei debiti</div>
         <div class="word-desc">
-          「借金（を）」<br>
-          <em>debiti</em> = 借金（複数形）<br>
-          <em>dei</em> = 不定冠詞の複数形「いくらかの／いくつかの」
+          «Dei debiti» = alcuni debiti.<br>
+          <em>debiti</em> = debiti (plurale)<br>
+          <em>dei</em> = articolo partitivo plurale
           <span class="grammar">articolo partitivo</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">che</div>
         <div class="word-desc">
-          「何」<br>
-          <span class="jp-ref">疑問詞として使用。</span>
+          Pronome interrogativo: «cosa / che cosa».<br>
+          <span class="jp-ref">「なに」に相当。</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">stai facendo</div>
         <div class="word-desc">
-          「〜しているところ」
+          «Stai facendo» = stai compiendo un'azione in questo momento.
           <span class="grammar">stare + gerundio</span><br>
-          <em>stai</em> = <em>stare</em>（〜している）の2人称単数<br>
-          <em>facendo</em> = <em>fare</em> のジェルンディオ「〜しながら」<br>
-          <span class="jp-ref">英語でいうと "while + ～ing" に相当。</span>
+          <em>stai</em> = 2ª persona sing. di <em>stare</em><br>
+          <em>facendo</em> = gerundio di <em>fare</em><br>
+          <span class="jp-ref">Equivale alla forma progressiva inglese "while doing".</span>
         </div>
       </div>
     </div>
@@ -386,14 +371,14 @@
       <div class="note-number">3</div>
       <div class="note-jp">
         「あんたなんか人間じゃない」
-        <small>原文 / Testo originale</small>
+        <small>Testo originale / Dialogo giapponese</small>
       </div>
     </div>
     <div class="note-it">
       「Non sei nemmeno umano.」
     </div>
     <button class="toggle-btn open" onclick="toggleNote(this)">
-      <span>🔍 単語・文法の解説を見る</span><span class="arrow">▲</span>
+      <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
     </button>
     <div class="note-body open">
       <div class="breakdown-title">Analisi delle parole</div>
@@ -401,38 +386,38 @@
       <div class="word-row">
         <div class="word-it">Non</div>
         <div class="word-desc">
-          否定「〜ない」
+          Negazione: «non».
           <span class="grammar">negazione</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">sei</div>
         <div class="word-desc">
-          「あなたは〜である」<br>
-          動詞 <em>essere</em> の2人称単数現在形。
+          «Sei» = tu sei.<br>
+          2ª persona singolare del verbo <em>essere</em> al presente.
           <span class="grammar">presente indicativo</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">nemmeno</div>
         <div class="word-desc">
-          「〜ですらない／〜さえもない」
+          «Nemmeno / neanche» = enfatizza la negazione: "neppure".
           <span class="grammar">avverbio di negazione</span><br>
-          <span class="jp-ref">強調の否定を表す副詞。</span>
+          <span class="jp-ref">「〜さえない」という強調の否定。</span>
         </div>
       </div>
       <div class="word-row">
         <div class="word-it">umano</div>
         <div class="word-desc">
-          「人間の／人間」
+          «Umano» = essere umano / umano.
           <span class="grammar">aggettivo / sostantivo</span>
         </div>
       </div>
       <div class="word-row">
-        <div class="word-it">⚠️ Tu を省いた理由</div>
+        <div class="word-it">⚠️ Perché omettere «Tu»</div>
         <div class="word-desc">
-          主語 <em>Tu</em>（あなた）を入れると喧嘩腰で過剰に攻撃的なニュアンスになるため省略。<br>
-          <span class="jp-ref">イタリア語は主語省略が自然（pro-drop 言語）。</span>
+          Inserire il soggetto esplicito <em>Tu</em> renderebbe la frase eccessivamente aggressiva e innaturale.<br>
+          <span class="jp-ref">L'italiano è una lingua «pro-drop»: il soggetto si omette quando è già implicito.</span>
         </div>
       </div>
     </div>
@@ -441,7 +426,7 @@
 </div><!-- /container -->
 
 <footer>
-  <div class="footer-logo">🍕 Fumetti di Sicilia</div>
+  <div class="footer-logo">🍕 Fetta di Manga</div>
   <div class="footer-links">
     <a href="index.html">Home</a>
     <a href="translation.html">Traduzioni</a>
@@ -449,7 +434,7 @@
     <a href="gallery.html">Galleria</a>
     <a href="contact.html">Contatto</a>
   </div>
-  <p style="opacity:.6; font-size:.82rem;">© 2024 Fumetti di Sicilia · Fatto con ❤️ e molto peperoncino</p>
+  <p style="opacity:.6; font-size:.82rem;">© 2024 Fetta di Manga · Fatto con ❤️ e molto peperoncino</p>
 </footer>
 
 <script>
@@ -457,13 +442,27 @@
     const body = btn.nextElementSibling;
     body.classList.toggle('open');
     btn.classList.toggle('open');
-    const arrow = btn.querySelector('.arrow');
-    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+    btn.querySelector('.arrow').textContent = body.classList.contains('open') ? '▲' : '▼';
   }
 
+  // ③ ハンバーガーメニュー
+  const hbBtn   = document.getElementById('navHamburger');
+  const hbLinks = document.getElementById('navLinks');
+  hbBtn.addEventListener('click', () => {
+    hbBtn.classList.toggle('open');
+    hbLinks.classList.toggle('open');
+  });
+  hbLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hbBtn.classList.remove('open');
+      hbLinks.classList.remove('open');
+    });
+  });
+
+  // スクロール表示
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
-  }, { threshold: .1 });
+  }, { threshold:.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
