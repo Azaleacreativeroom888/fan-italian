@@ -83,6 +83,12 @@
       text-align:center; padding:3.5rem 2rem;
       position:relative; overflow:hidden;
     }
+    .tiles-bg {
+      position:absolute; inset:0; opacity:.08;
+      background:
+        repeating-linear-gradient(0deg,var(--oro) 0,var(--oro) 2px,transparent 2px,transparent 40px),
+        repeating-linear-gradient(90deg,var(--oro) 0,var(--oro) 2px,transparent 2px,transparent 40px);
+    }
     .page-header h1 { font-family:'Satisfy',cursive; font-size:3rem; color:var(--oro); position:relative; }
     .page-header p { font-style:italic; opacity:.8; margin-top:.5rem; position:relative; }
 
@@ -209,10 +215,12 @@
   <!-- ↓ ここのhrefをあなたが作ったhtmlファイル名に合わせてください -->
 
   <a class="gallery-item reveal" data-cat="Manga" href="manga11-1.html">
-    <div class="gallery-art" style="background:linear-gradient(135deg,#ffddbb,#ffaa44); height:280px;">
-      🌋<span class="jp-char">炎</span>
+    <div class="gallery-art" style="background:#222; height:280px; padding:0;">
+      <img src="https://raw.githubusercontent.com/Azaleacreativeroom888/fan-italian/main/%E6%B2%B3%E7%AB%A5%20%E8%8B%B1%E8%AA%9E_001.jpg"
+           alt="河童"
+           style="width:100%; height:100%; object-fit:cover; display:block;">
     </div>
-    <div class="gallery-caption"><h4>Il Momento dell'Eruzione</h4><p>Tavola · Fiamme Nere Vol.2</p></div>
+    <div class="gallery-caption"><h4>河童 (Kappa)</h4><p>Manga · Capitolo 1</p></div>
     <div class="gallery-overlay">→ Aperto ora</div>
   </a>
 
@@ -221,7 +229,7 @@
       📕<span class="jp-char">風</span>
     </div>
     <div class="gallery-caption"><h4>Cover: Il Vento del Nord Vol.1</h4><p>Cover · Edizione Italiana</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <a class="gallery-item reveal" data-cat="sicilia" href="gallery_citrus.html">
@@ -229,7 +237,7 @@
       🍊<span class="jp-char">橘</span>
     </div>
     <div class="gallery-caption"><h4>Citrus Samurai</h4><p>Sicilia × Manga · Fan Art</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <a class="gallery-item reveal" data-cat="fanart" href="gallery_sirena.html">
@@ -237,7 +245,7 @@
       🧜<span class="jp-char">海</span>
     </div>
     <div class="gallery-caption"><h4>Sirena di Catania</h4><p>Fan Art · Shojo Style</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <a class="gallery-item reveal" data-cat="tavola" href="gallery_castello.html">
@@ -245,7 +253,7 @@
       🏯<span class="jp-char">城</span>
     </div>
     <div class="gallery-caption"><h4>Il Castello sul Vulcano</h4><p>Tavola · Samurai dell'Etna</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <a class="gallery-item reveal" data-cat="sicilia" href="gallery_carnevale.html">
@@ -253,7 +261,7 @@
       🎭<span class="jp-char">祭</span>
     </div>
     <div class="gallery-caption"><h4>Carnevale di Acireale</h4><p>Sicilia × Manga · Community Art</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <a class="gallery-item reveal" data-cat="cover" href="gallery_mercato.html">
@@ -261,7 +269,7 @@
       📗<span class="jp-char">市</span>
     </div>
     <div class="gallery-caption"><h4>Cover: La Ragazza del Mercato</h4><p>Cover · Edizione Italiana</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <a class="gallery-item reveal" data-cat="fanart" href="gallery_ninja.html">
@@ -269,7 +277,7 @@
       🍕<span class="jp-char">忍</span>
     </div>
     <div class="gallery-caption"><h4>Pizza Ninja</h4><p>Fan Art · Parodia</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <a class="gallery-item reveal" data-cat="sicilia" href="gallery_vaso.html">
@@ -277,7 +285,7 @@
       🏺<span class="jp-char">古</span>
     </div>
     <div class="gallery-caption"><h4>Vaso di Gela</h4><p>Sicilia × Manga · Illustrazione</p></div>
-    <div class="gallery-overlay">→  Aperto ora</div>
+    <div class="gallery-overlay">→ 開く</div>
   </a>
 
   <!-- 新しいアイテムを追加するときはここにコピペ -->
