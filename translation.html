@@ -23,14 +23,14 @@
       font-family:'Lora',serif; color:var(--testo);
     }
 
-    /* ── 赤黄緑タイルライン（page-headerの上下）── */
+    /* ── タイルライン ── */
     .tile-bar {
-      height: 14px;
+      height:14px;
       background: repeating-linear-gradient(90deg,
-        var(--rosso)    0,  var(--rosso)    18px,
-        var(--oro)      18px, var(--oro)    36px,
-        var(--verde)    36px, var(--verde)  54px,
-        var(--crema)    54px, var(--crema)  72px);
+        var(--rosso) 0, var(--rosso) 18px,
+        var(--oro)   18px, var(--oro)  36px,
+        var(--verde) 36px, var(--verde) 54px,
+        var(--crema) 54px, var(--crema) 72px);
     }
 
     /* ── NAV ── */
@@ -40,14 +40,7 @@
       box-shadow:0 4px 16px var(--ombra); position:sticky; top:0; z-index:100;
       border-bottom:4px solid var(--oro);
     }
-
-    /* ④ ロゴフォント：index.htmlと同じ Satisfy + letter-spacing */
-    .nav-logo {
-      font-family:'Satisfy',cursive;
-      color:var(--crema); font-size:1.7rem;
-      letter-spacing:1px;          /* ← index.htmlと同じ */
-      text-decoration:none;
-    }
+    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; letter-spacing:1px; text-decoration:none; }
     .nav-links { display:flex; gap:1.6rem; }
     .nav-links a {
       color:var(--crema); text-decoration:none; font-family:'Lora',serif;
@@ -55,32 +48,24 @@
       border-bottom:2px solid transparent; transition:border-color .25s,color .25s;
     }
     .nav-links a:hover,.nav-links a.active { border-color:var(--oro); color:var(--oro); }
-
-    /* ③ ── ハンバーガーボタン（PCでは非表示）── */
     .nav-hamburger {
-      display:none;
-      flex-direction:column; justify-content:center; gap:5px;
+      display:none; flex-direction:column; justify-content:center; gap:5px;
       background:none; border:none; cursor:pointer; padding:4px;
     }
     .nav-hamburger span {
-      display:block; width:26px; height:3px;
-      background:var(--crema); border-radius:2px;
+      display:block; width:26px; height:3px; background:var(--crema); border-radius:2px;
       transition:transform .3s, opacity .3s;
     }
     .nav-hamburger.open span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity:0; }
     .nav-hamburger.open span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
-
     @media (max-width:640px) {
       nav { padding:0 1.2rem; }
       .nav-hamburger { display:flex; }
       .nav-links {
-        display:none; position:fixed;
-        top:78px; /* tile-bar(14px) + nav(64px) */
-        left:0; right:0;
+        display:none; position:fixed; top:64px; left:0; right:0;
         background:var(--rosso); flex-direction:column; gap:0;
-        border-bottom:4px solid var(--oro);
-        box-shadow:0 8px 24px var(--ombra); z-index:150;
+        border-bottom:4px solid var(--oro); box-shadow:0 8px 24px var(--ombra); z-index:150;
       }
       .nav-links.open { display:flex; }
       .nav-links a { padding:1rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.15); font-size:1rem; }
@@ -94,6 +79,7 @@
       position:relative; overflow:hidden;
     }
     .page-header::before {
+      content:'翻訳 訳 注 訳 翻訳 注 翻訳 訳 注';
       position:absolute; bottom:-8px; left:0; right:0;
       font-size:5rem; opacity:.05; letter-spacing:10px;
       line-height:1; white-space:nowrap; overflow:hidden;
@@ -101,8 +87,66 @@
     .page-header h1 { font-family:'Satisfy',cursive; font-size:2.8rem; color:var(--oro); position:relative; }
     .page-header p { font-style:italic; opacity:.8; margin-top:.5rem; position:relative; font-size:1rem; }
 
-    /* ── CONTAINER ── */
-    .container { max-width:860px; margin:3rem auto 5rem; padding:0 2rem; }
+    /* ── メインレイアウト（左：コンテンツ、右：サイドバー）── */
+    .layout {
+      max-width: 1060px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      display: flex;
+      gap: 2.4rem;
+      align-items: flex-start;
+    }
+    .main-col { flex: 3; min-width: 0; }
+    .sidebar-col { flex: 1; min-width: 200px; }
+
+    /* ── サイドバー ── */
+    .sidebar-block {
+      background: #fff;
+      border: 2px solid var(--crema-dk);
+      border-radius: 4px;
+      box-shadow: 4px 4px 0 var(--crema-dk);
+      padding: 1.4rem 1.4rem;
+      margin-bottom: 1.4rem;
+      position: sticky;
+      top: 84px; /* nav高さ分 */
+    }
+    .sidebar-block h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 1rem;
+      padding-bottom: .6rem;
+      border-bottom: 2px solid var(--crema-dk);
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      text-decoration: none;
+      color: var(--marrone);
+      font-family: 'Lora', serif;
+      font-size: .9rem;
+      font-weight: 600;
+      padding: .65rem .5rem;
+      border-radius: 2px;
+      border-bottom: 1px dashed var(--crema-dk);
+      transition: background .2s, color .2s, padding-left .2s;
+    }
+    .sidebar-link:last-child { border-bottom: none; }
+    .sidebar-link::before { content: '▶'; font-size: .65rem; color: var(--rosso); flex-shrink: 0; }
+    .sidebar-link:hover { background: var(--crema-dk); color: var(--rosso); padding-left: .9rem; }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display:inline-flex; align-items:center; gap:.4rem;
+      color:var(--rosso); text-decoration:none; font-weight:700;
+      font-size:.9rem; margin-bottom:2rem; padding:8px 0;
+      border-bottom:2px solid transparent; transition:border-color .2s;
+    }
+    .back-link:hover { border-color:var(--rosso); }
 
     /* ── NOTE CARD ── */
     .note-card {
@@ -153,8 +197,7 @@
       display:flex; align-items:center; gap:.5rem; transition:background .15s;
     }
     .toggle-btn:hover { background:var(--crema-dk); }
-    .toggle-btn .arrow { font-size:.7rem; margin-left:auto; transition:transform .2s; }
-    .toggle-btn.open .arrow { transform:rotate(180deg); }
+    .toggle-btn .arrow { font-size:.7rem; margin-left:auto; }
 
     /* ── BREAKDOWN BODY ── */
     .note-body { display:none; padding:1.4rem 1.6rem; }
@@ -184,15 +227,6 @@
     }
     .word-row + .word-row { border-top:1px dashed var(--crema-dk); padding-top:.85rem; }
 
-    /* ── BACK LINK ── */
-    .back-link {
-      display:inline-flex; align-items:center; gap:.4rem;
-      color:var(--rosso); text-decoration:none; font-weight:700;
-      font-size:.9rem; margin-bottom:2rem; padding:8px 0;
-      border-bottom:2px solid transparent; transition:border-color .2s;
-    }
-    .back-link:hover { border-color:var(--rosso); }
-
     /* ── FOOTER ── */
     footer {
       background:var(--marrone); color:var(--crema);
@@ -207,7 +241,10 @@
     .reveal { opacity:0; transform:translateY(24px); transition:opacity .55s ease, transform .55s ease; }
     .revealed { opacity:1; transform:none; }
 
-    @media(max-width:600px) {
+    @media(max-width:760px) {
+      .layout { flex-direction:column; }
+      .sidebar-col { width:100%; }
+      .sidebar-block { position:static; }
       .word-row { grid-template-columns:1fr; gap:.2rem; }
       .note-header { flex-direction:column; gap:.5rem; }
     }
@@ -217,12 +254,9 @@
 
 <nav>
   <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
-
-  <!-- ③ ☰ ボタン -->
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
-
   <div class="nav-links" id="navLinks">
     <a href="index.html">Home</a>
     <a href="translation.html" class="active">Traduzioni</a>
@@ -235,262 +269,265 @@
 <div class="tile-bar"></div>
 <div class="page-header">
   <h1>📜 Note di Traduzione</h1>
-  <!-- ① イタリア語に変更 -->
   <p>Dialogo originale → Traduzione italiana + Analisi grammaticale</p>
 </div>
 <div class="tile-bar"></div>
 
-<div class="container">
+<div class="layout">
 
-  <a class="back-link" href="index.html">← Home</a>
+  <!-- ── 左：メインコンテンツ ── -->
+  <div class="main-col">
 
-  <div class="note-card reveal">
-    <div class="note-header">
-      <div class="note-number">1</div>
-      <div class="note-jp">
-        「私の人生は、その瞬間から始まったような気がする。」
-        <!-- ① イタリア語に変更 -->
-        <small>Dialogo ittalian</small>
-      </div>
-    </div>
-    <div class="note-it">
-      「A me pare che la mia esistenza sia incominciata in quel momento.」
-    </div>
-    <!-- ① イタリア語に変更 -->
-    <div class="note-body open">
-      <div class="breakdown-title">Analisi delle parole</div>
+    <a class="back-link" href="index.html">← Home</a>
 
-      <div class="word-row">
-        <div class="word-it">A me</div>
-        <div class="word-desc">
-          直訳では「私にとっては」<br>
-          イタリア語ではMi pare ...<br>
-          だけでも「私には〜と思える」になるんだけど、<br>
-          A me を付けると<br>
-          「少なくとも私にはそう思える」<br>
-          みたいな強調になる。<br>
+    <!-- NOTE 0：小説翻訳 -->
+    <div class="note-card reveal">
+      <div class="note-header">
+        <div class="note-number">★</div>
+        <div class="note-jp">
+          「私の人生は、その瞬間から始まったような気がする。」
+          <small>小説翻訳 / Traduzione letteraria</small>
         </div>
       </div>
-      <div class="word-row">
-        <div class="word-it">pare</div>
-        <div class="word-desc">
-          動詞 parere（〜のように思われる）<br>
-          英語のIt seems to me that ...に近い。<br>
-          だからMi pare che ... = 私には〜のように思える<br>
-        </div>
+      <div class="note-it">
+        「A me pare che la mia esistenza sia incominciata in quel momento.」
       </div>
-      <div class="word-row">
-        <div class="word-it">che</div>
-        <div class="word-desc">
-         「〜ということ」英語の that。<br>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Analisi delle parole</div>
+        <div class="word-row">
+          <div class="word-it">A me</div>
+          <div class="word-desc">
+            直訳では「私にとっては」<br>
+            <em>Mi pare ...</em> だけでも「私には〜と思える」になるが、<br>
+            <em>A me</em> を付けると「少なくとも私にはそう思える」という強調になる。
+          </div>
         </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">la mia esistenza</div>
-        <div class="word-desc">
-          la = その<br>
-          mia = 私の<br>
-          esistenza = 存在、生涯、人生<br>
+        <div class="word-row">
+          <div class="word-it">pare</div>
+          <div class="word-desc">
+            動詞 <em>parere</em>（〜のように思われる）<br>
+            英語の "It seems to me that ..." に近い。<br>
+            <span class="jp-ref">Mi pare che ... = 私には〜のように思える</span>
+          </div>
         </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">sia incominciata</div>
-        <div class="word-desc">
-          incominciare（始まる）の過去分詞はincominciato / incominciata<br>
-          そしてpare cheの後ろなので接続法（congiuntivo）が来ている。<br>
-          だからè incominciataじゃなくてsia incominciataになっている。<br>
-          英語ならseems that my life has begun<br>
+        <div class="word-row">
+          <div class="word-it">che</div>
+          <div class="word-desc">
+            「〜ということ」英語の that。
+          </div>
         </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">in quel momento</div>
-        <div class="word-desc">
-          in = 〜に<br>
-          quel = その<br>
-          momento = 瞬間<br>
+        <div class="word-row">
+          <div class="word-it">la mia esistenza</div>
+          <div class="word-desc">
+            <em>la</em> = その ／ <em>mia</em> = 私の ／ <em>esistenza</em> = 存在・生涯・人生
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">sia incominciata</div>
+          <div class="word-desc">
+            <em>incominciare</em>（始まる）の過去分詞は <em>incominciata</em>。<br>
+            <em>pare che</em> の後ろなので接続法（congiuntivo）が必要。<br>
+            だから <em>è incominciata</em> ではなく <em>sia incominciata</em> になる。
+            <span class="grammar">congiuntivo passato</span><br>
+            <span class="jp-ref">英語なら "seems that my life has begun"</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">in quel momento</div>
+          <div class="word-desc">
+            <em>in</em> = 〜に ／ <em>quel</em> = その ／ <em>momento</em> = 瞬間
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ═══ NOTE 1 ═══ -->
-  <div class="note-card reveal">
-    <div class="note-header">
-      <div class="note-number">1</div>
-      <div class="note-jp">
-        「よし！河童を捕まえて一攫千金目指すぞ！」
-        <!-- ① イタリア語に変更 -->
-        <small>Testo originale / Dialogo giapponese</small>
+    <!-- NOTE 1 -->
+    <div class="note-card reveal">
+      <div class="note-header">
+        <div class="note-number">1</div>
+        <div class="note-jp">
+          「よし！河童を捕まえて一攫千金目指すぞ！」
+          <small>Testo originale / Dialogo giapponese</small>
+        </div>
+      </div>
+      <div class="note-it">
+        「Bene! Catturerò un kappa e diventerò ricco tutto d'un colpo!」
+      </div>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Analisi delle parole</div>
+        <div class="word-row">
+          <div class="word-it">Bene!</div>
+          <div class="word-desc">
+            「よし！」に近い掛け声。<br>
+            <span class="jp-ref">英語の "Alright!" や "Okay!" に相当。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">Catturerò</div>
+          <div class="word-desc">
+            「捕まえるぞ！」<br>
+            動詞 <em>catturare</em>（捕まえる）の未来形。
+            <span class="grammar">futuro semplice</span><br>
+            <span class="jp-ref">「私は捕まえるだろう」</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">un kappa</div>
+          <div class="word-desc">
+            「河童を」<br>
+            日本文化由来のため <em>kappa</em> とそのまま使うのが自然。<br>
+            <span class="jp-ref">必要なら <em>creatura leggendaria giapponese</em>（日本の伝説の生き物）と注記可能。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">e diventerò ricco</div>
+          <div class="word-desc">
+            「金持ちになる」<br>
+            <em>diventare ricco</em> = 裕福になる。
+            <span class="grammar">futuro semplice</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">tutto d'un colpo</div>
+          <div class="word-desc">
+            「一攫千金」「一気に」のニュアンス。自然なイタリア語慣用句。<br>
+            <span class="jp-ref"><em>colpo</em> = 一撃 ／ <em>tutto</em> = 全部</span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="note-it">
-      「Bene! Catturerò un kappa e diventerò ricco tutto d'un colpo!」
-    </div>
-    <!-- ① イタリア語に変更 -->
-    <button class="toggle-btn open" onclick="toggleNote(this)">
-      <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
-    </button>
-    <div class="note-body open">
-      <div class="breakdown-title">Analisi delle parole</div>
 
-      <div class="word-row">
-        <div class="word-it">Bene!</div>
-        <div class="word-desc">
-          「よし！」に近い掛け声。<br>
-          <span class="jp-ref">英語の “Alright!” や “Okay!” に近い。</span>
+    <!-- NOTE 2 -->
+    <div class="note-card reveal">
+      <div class="note-header">
+        <div class="note-number">2</div>
+        <div class="note-jp">
+          「借金作ってなにしてるの？」
+          <small>Testo originale / Dialogo giapponese</small>
         </div>
       </div>
-      <div class="word-row">
-        <div class="word-it">Catturerò</div>
-        <div class="word-desc">
-          «Prenderò / Catturerò»<br>
-          「捕まえるぞ！」 <em>catturare</em>.
-          <span class="grammar">futuro semplice</span><br>
-          <span class="jp-ref">動詞 catturare（捕まえる）の未来形で、「私は捕まえるだろう」。</span>
-        </div>
+      <div class="note-it">
+        「Hai fatto dei debiti, che stai facendo?」
       </div>
-      <div class="word-row">
-        <div class="word-it">un kappa</div>
-        <div class="word-desc">
-          「河童を」<br>
-          <span class="jp-ref">日本文化由来なので kappa とそのまま使うのが自然。必要なら説明的に creatura leggendaria giapponese（日本の伝説の生き物）も可能。</span>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Analisi delle parole</div>
+        <div class="word-row">
+          <div class="word-it">Hai fatto</div>
+          <div class="word-desc">
+            「〜した」
+            <span class="grammar">passato prossimo</span><br>
+            <em>Hai</em> = 動詞 <em>avere</em> の2人称単数「あなたは〜した」<br>
+            <em>fatto</em> = <em>fare</em> の過去分詞「した」<br>
+            <span class="jp-ref">hai + fatto = 近過去（〜した）</span>
+          </div>
         </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">e diventerò ricco</div>
-        <div class="word-desc">
-          「金持ちになる」<br>
-          <em>diventare ricco = 裕福になる。</em> = arricchirsi.
-          <span class="grammar">futuro semplice</span>
+        <div class="word-row">
+          <div class="word-it">dei debiti</div>
+          <div class="word-desc">
+            「借金（を）」<br>
+            <em>debiti</em> = 借金（複数形）<br>
+            <em>dei</em> = 不定冠詞の複数形「いくらかの」
+            <span class="grammar">articolo partitivo</span>
+          </div>
         </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">tutto d'un colpo</div>
-        <div class="word-desc">
-          Espressione idiomatica per «一攫千金» (arricchirsi in un colpo solo).<br>
-          「一攫千金」や「一気に」のニュアンス。<br>
-          <span class="jp-ref">直訳ではなく自然なイタリア語表現。colpo = 一撃。tutto = 全部。</span>
+        <div class="word-row">
+          <div class="word-it">che</div>
+          <div class="word-desc">
+            「何」疑問詞として使用。<br>
+            <span class="jp-ref">「なに」に相当。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">stai facendo</div>
+          <div class="word-desc">
+            「〜しているところ」
+            <span class="grammar">stare + gerundio</span><br>
+            <em>stai</em> = <em>stare</em> の2人称単数<br>
+            <em>facendo</em> = <em>fare</em> のジェルンディオ「〜しながら」<br>
+            <span class="jp-ref">英語でいうと "while + ～ing" に相当。</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ═══ NOTE 2 ═══ -->
-  <div class="note-card reveal">
-    <div class="note-header">
-      <div class="note-number">2</div>
-      <div class="note-jp">
-        「借金作ってなにしてるの？」
-        <small>Testo originale / Dialogo giapponese</small>
+    <!-- NOTE 3 -->
+    <div class="note-card reveal">
+      <div class="note-header">
+        <div class="note-number">3</div>
+        <div class="note-jp">
+          「あんたなんか人間じゃない」
+          <small>Testo originale / Dialogo giapponese</small>
+        </div>
+      </div>
+      <div class="note-it">
+        「Non sei nemmeno umano.」
+      </div>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Analisi delle parole</div>
+        <div class="word-row">
+          <div class="word-it">Non</div>
+          <div class="word-desc">否定「〜ない」 <span class="grammar">negazione</span></div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">sei</div>
+          <div class="word-desc">
+            「あなたは〜である」<br>
+            動詞 <em>essere</em> の2人称単数現在形。
+            <span class="grammar">presente indicativo</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">nemmeno</div>
+          <div class="word-desc">
+            「〜ですらない／〜さえもない」
+            <span class="grammar">avverbio di negazione</span><br>
+            <span class="jp-ref">強調の否定を表す副詞。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">umano</div>
+          <div class="word-desc">
+            「人間の／人間」
+            <span class="grammar">aggettivo / sostantivo</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-it">⚠️ Tu を省いた理由</div>
+          <div class="word-desc">
+            主語 <em>Tu</em> を入れると過剰に攻撃的なニュアンスになるため省略。<br>
+            <span class="jp-ref">イタリア語は主語省略が自然（pro-drop 言語）。</span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="note-it">
-      「Hai fatto dei debiti, che stai facendo?」
-    </div>
-    <button class="toggle-btn open" onclick="toggleNote(this)">
-      <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
-    </button>
-    <div class="note-body open">
-      <div class="breakdown-title">Analisi delle parole</div>
 
-      <div class="word-row">
-        <div class="word-it">Hai fatto</div>
-        <div class="word-desc">
-          Hai ＝ 動詞avere（持つ）の2人称単数（あなたは〜した）
-          <span class="grammar">passato prossimo</span><br>
-          fatto ＝ fare（する）の過去分詞「した」<br>
-          hai ＝ fatto = 〜した（近過去）<br>
-          <span class="jp-ref">「借金を作った」→ passato recente in italiano.</span>
-        </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">dei debiti</div>
-        <div class="word-desc">
-          «Dei debiti» = 借金を作る<br>
-          <em>debiti</em> = 借金（複数）<br>
-          <em>dei</em> = 不定冠詞の複数形「いくらかの／いくつかの」
-          <span class="grammar">articolo partitivo</span>
-        </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">che</div>
-        <div class="word-desc">
-          Pronome interrogativo: «cosa / che cosa».<br>
-          <span class="jp-ref">「なに」に相当。</span>
-        </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">stai facendo</div>
-        <div class="word-desc">
-          «Stai facendo» = 「しているところ」
-          <span class="grammar">stare + gerundio</span><br>
-          <em>stai</em> = （〜している）の2人称単数<br>
-          <em>facendo</em> = fare のジェルンディオ（gerundio）「〜しながら」英語でいうと［while + ～ing］<br>
-          <span class="jp-ref">Equivale alla forma progressiva inglese "while doing".</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- 追加ノートはここにコピペで増やす -->
 
-  <!-- ═══ NOTE 3 ═══ -->
-  <div class="note-card reveal">
-    <div class="note-header">
-      <div class="note-number">3</div>
-      <div class="note-jp">
-        「あんたなんか人間じゃない」
-        <small>Testo originale / Dialogo giapponese</small>
-      </div>
-    </div>
-    <div class="note-it">
-      「Non sei nemmeno umano.」
-    </div>
-    <button class="toggle-btn open" onclick="toggleNote(this)">
-      <span>🔍 Analisi delle parole e della grammatica</span><span class="arrow">▲</span>
-    </button>
-    <div class="note-body open">
-      <div class="breakdown-title">Analisi delle parole</div>
+  </div><!-- /main-col -->
 
-      <div class="word-row">
-        <div class="word-it">Non</div>
-        <div class="word-desc">
-          否定「〜ない」: «non».
-          <span class="grammar">negazione</span>
-        </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">sei</div>
-        <div class="word-desc">
-          «Sei» = 「あなたは〜である」（動詞 essere の2人称単数）<br>
-          2ª persona singolare del verbo <em>essere</em> al presente.
-          <span class="grammar">presente indicativo</span>
-        </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">nemmeno</div>
-        <div class="word-desc">
-          «Nemmeno / neanche» = 「〜ですらない／〜さえもない」
-          <span class="grammar">avverbio di negazione</span><br>
-          <span class="jp-ref">「〜さえない」という強調の否定。</span>
-        </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">umano</div>
-        <div class="word-desc">
-          «Umano» = 「人間の／人間」
-          <span class="grammar">aggettivo / sostantivo</span>
-        </div>
-      </div>
-      <div class="word-row">
-        <div class="word-it">⚠️ Perché omettere «Tu»</div>
-        <div class="word-desc">
-          Inserire il soggetto esplicito <em>Tu</em> renderebbe la frase eccessivamente aggressiva e innaturale.<br>
-          <span class="jp-ref">L'italiano è una lingua «pro-drop»: il soggetto si omette quando è già implicito.</span>
-        </div>
-      </div>
+  <!-- ── 右：サイドバー ── -->
+  <aside class="sidebar-col">
+    <div class="sidebar-block">
+      <h3>📂 メニュー</h3>
+      <a class="sidebar-link" href="grammar.html">文法ノート</a>
+      <a class="sidebar-link" href="novel.html">小説翻訳</a>
+      <a class="sidebar-link" href="studyblog.html">勉強のひとことブログ</a>
     </div>
-  </div>
+  </aside>
 
-</div><!-- /container -->
+</div><!-- /layout -->
 
 <footer>
   <div class="footer-logo">🍕 Fetta di Manga</div>
@@ -512,7 +549,6 @@
     btn.querySelector('.arrow').textContent = body.classList.contains('open') ? '▲' : '▼';
   }
 
-  // ③ ハンバーガーメニュー
   const hbBtn   = document.getElementById('navHamburger');
   const hbLinks = document.getElementById('navLinks');
   hbBtn.addEventListener('click', () => {
@@ -526,7 +562,6 @@
     });
   });
 
-  // スクロール表示
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
   }, { threshold:.1 });
