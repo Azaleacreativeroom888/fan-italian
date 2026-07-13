@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文法ノート – Fetta di Manga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Satisfy&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosso:#C0392B; --rosso-dk:#922B21; --terracotta:#D4693A;
+      --oro:#E8B84B; --crema:#FAF3E0; --crema-dk:#F0E6C8;
+      --marrone:#5C3317; --verde:#2E7D32; --testo:#2C1810;
+      --ombra:rgba(44,24,16,.18);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:'Lora',serif; color:var(--testo);
+      background-color:var(--crema);
+      background-image:
+        repeating-linear-gradient(45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%),
+        repeating-linear-gradient(-45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%);
+      background-size:28px 28px;
+    }
+
+    .tile-bar {
+      height:14px;
+      background:repeating-linear-gradient(90deg,
+        var(--rosso) 0, var(--rosso) 18px,
+        var(--oro)   18px, var(--oro)  36px,
+        var(--verde) 36px, var(--verde) 54px,
+        var(--crema) 54px, var(--crema) 72px);
+    }
+
+    /* ── NAV ── */
+    nav {
+      background:var(--rosso); display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:64px;
+      box-shadow:0 4px 16px var(--ombra); position:sticky; top:0; z-index:100;
+      border-bottom:4px solid var(--oro);
+    }
+    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; letter-spacing:1px; text-decoration:none; }
+    .nav-links { display:flex; gap:1.6rem; }
+    .nav-links a {
+      color:var(--crema); text-decoration:none; font-family:'Lora',serif;
+      font-size:.95rem; font-weight:600; letter-spacing:.5px; padding:4px 0;
+      border-bottom:2px solid transparent; transition:border-color .25s,color .25s;
+    }
+    .nav-links a:hover,.nav-links a.active { border-color:var(--oro); color:var(--oro); }
+    .nav-hamburger {
+      display:none; flex-direction:column; justify-content:center; gap:5px;
+      background:none; border:none; cursor:pointer; padding:4px;
+    }
+    .nav-hamburger span {
+      display:block; width:26px; height:3px; background:var(--crema); border-radius:2px;
+      transition:transform .3s, opacity .3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity:0; }
+    .nav-hamburger.open span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+    @media (max-width:640px) {
+      nav { padding:0 1.2rem; }
+      .nav-hamburger { display:flex; }
+      .nav-links {
+        display:none; position:fixed; top:64px; left:0; right:0;
+        background:var(--rosso); flex-direction:column; gap:0;
+        border-bottom:4px solid var(--oro); box-shadow:0 8px 24px var(--ombra); z-index:150;
+      }
+      .nav-links.open { display:flex; }
+      .nav-links a { padding:1rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.15); font-size:1rem; }
+      .nav-links a:last-child { border-bottom:none; }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background:var(--marrone); color:var(--crema);
+      text-align:center; padding:3rem 2rem 2.5rem;
+      position:relative; overflow:hidden;
+    }
+    .page-header::before {
+      content:'文法 文法 文法 文法 文法 文法 文法 文法 文法';
+      position:absolute; bottom:-8px; left:0; right:0;
+      font-size:5rem; opacity:.05; letter-spacing:10px;
+      line-height:1; white-space:nowrap; overflow:hidden;
+    }
+    .page-header h1 { font-family:'Satisfy',cursive; font-size:2.8rem; color:var(--oro); position:relative; }
+    .page-header p { font-style:italic; opacity:.8; margin-top:.5rem; position:relative; font-size:1rem; }
+
+    /* ── LAYOUT（左：本文、右：目次）── */
+    .layout {
+      max-width:1060px;
+      margin:3rem auto 5rem;
+      padding:0 2rem;
+      display:flex;
+      gap:2.4rem;
+      align-items:flex-start;
+    }
+
+    /* ── メイン本文 ── */
+    .main-col { flex:3; min-width:0; }
+
+    /* ── 目次サイドバー（右）── */
+    .toc {
+      flex:1;
+      min-width:180px;
+      position:sticky;
+      top:84px;
+    }
+    .toc-inner {
+      background:#fff;
+      border:2px solid var(--crema-dk);
+      border-radius:4px;
+      box-shadow:4px 4px 0 var(--crema-dk);
+      padding:1.2rem;
+    }
+    .toc-inner h3 {
+      font-family:'Playfair Display',serif;
+      font-size:.78rem; font-weight:700;
+      letter-spacing:2px; text-transform:uppercase;
+      color:var(--terracotta);
+      margin-bottom:.8rem; padding-bottom:.5rem;
+      border-bottom:2px solid var(--crema-dk);
+    }
+    .toc-inner a {
+      display:flex; align-items:center; gap:.6rem;
+      color:var(--marrone); text-decoration:none;
+      font-family:'Lora',serif; font-size:.88rem; font-weight:600;
+      padding:.55rem .4rem;
+      border-bottom:1px dashed var(--crema-dk);
+      transition:background .2s, color .2s, padding-left .2s;
+      border-radius:2px;
+    }
+    .toc-inner a:last-child { border-bottom:none; }
+    .toc-inner a::before { content:'▶'; font-size:.6rem; color:var(--rosso); flex-shrink:0; }
+    .toc-inner a:hover { background:var(--crema-dk); color:var(--rosso); padding-left:.7rem; }
+
+    .back-link {
+      display:inline-flex; align-items:center; gap:.4rem;
+      color:var(--rosso); text-decoration:none; font-weight:700;
+      font-size:.9rem; margin-bottom:2rem; padding:8px 0;
+      border-bottom:2px solid transparent; transition:border-color .2s;
+    }
+    .back-link:hover { border-color:var(--rosso); }
+
+    /* ── セクション ── */
+    .grammar-section {
+      margin-bottom:3rem;
+    }
+
+    /* セクションタイトル（Evergreenの章タイトルっぽく） */
+    .section-heading {
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      margin-bottom:1.4rem;
+      padding-bottom:.7rem;
+      border-bottom:3px solid var(--oro);
+    }
+    .section-num {
+      background:var(--rosso);
+      color:#fff;
+      font-family:'Playfair Display',serif;
+      font-size:.85rem; font-weight:700;
+      width:36px; height:36px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+      box-shadow:2px 2px 0 var(--rosso-dk);
+    }
+    .section-heading h2 {
+      font-family:'Playfair Display',serif;
+      font-size:1.4rem; color:var(--marrone);
+      line-height:1.2;
+    }
+    .section-heading .section-it {
+      font-size:.85rem; color:var(--terracotta);
+      font-style:italic; display:block; margin-top:2px;
+    }
+
+    /* ── ルールカード ── */
+    .rule-card {
+      background:#fff;
+      border:2px solid var(--crema-dk);
+      border-radius:4px;
+      box-shadow:4px 4px 0 var(--crema-dk);
+      margin-bottom:1.2rem;
+      overflow:hidden;
+    }
+
+    /* ルールタイトルバー */
+    .rule-title {
+      background:var(--marrone);
+      color:var(--crema);
+      padding:.65rem 1.2rem;
+      font-family:'Playfair Display',serif;
+      font-size:.92rem; font-weight:700;
+      display:flex; align-items:center; gap:.6rem;
+    }
+    .rule-title .tag {
+      background:var(--oro); color:var(--marrone);
+      font-size:.65rem; font-weight:800; letter-spacing:1px;
+      text-transform:uppercase; padding:2px 8px; border-radius:2px;
+      margin-left:auto; flex-shrink:0;
+    }
+
+    /* ルール本文 */
+    .rule-body {
+      padding:1rem 1.2rem;
+      font-size:.9rem; line-height:1.8;
+    }
+    .rule-body p { margin-bottom:.6rem; }
+    .rule-body p:last-child { margin-bottom:0; }
+
+    /* 活用表 */
+    .conj-table {
+      width:100%; border-collapse:collapse;
+      margin:.8rem 0; font-size:.88rem;
+    }
+    .conj-table th {
+      background:var(--marrone); color:var(--oro);
+      padding:6px 12px; text-align:left;
+      font-family:'Playfair Display',serif; font-weight:700;
+      font-size:.8rem; letter-spacing:.5px;
+    }
+    .conj-table td {
+      padding:6px 12px;
+      border-bottom:1px solid var(--crema-dk);
+      vertical-align:top;
+    }
+    .conj-table tr:last-child td { border-bottom:none; }
+    .conj-table tr:nth-child(even) td { background:var(--crema); }
+    .conj-table .it { font-style:italic; color:var(--rosso); font-weight:700; }
+    .conj-table .jp { color:#5a3820; font-size:.85rem; }
+
+    /* 例文ブロック */
+    .example {
+      background:var(--crema-dk);
+      border-left:4px solid var(--rosso);
+      border-radius:0 3px 3px 0;
+      padding:.7rem 1rem;
+      margin:.6rem 0;
+      font-size:.9rem;
+    }
+    .example .ex-it { font-style:italic; color:var(--marrone); font-weight:700; }
+    .example .ex-jp { color:#5a3820; font-size:.85rem; margin-top:2px; }
+
+    /* ポイント強調 */
+    .point {
+      background:#fff8e1;
+      border:2px solid var(--oro);
+      border-radius:3px;
+      padding:.7rem 1rem;
+      margin:.6rem 0;
+      font-size:.88rem; line-height:1.7;
+    }
+    .point::before { content:'💡 '; }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--marrone); color:var(--crema);
+      text-align:center; padding:2.5rem 1rem; font-size:.88rem;
+      border-top:4px solid var(--oro);
+    }
+    .footer-logo { font-family:'Satisfy',cursive; font-size:1.5rem; color:var(--oro); margin-bottom:.5rem; }
+    .footer-links { display:flex; gap:1.2rem; justify-content:center; margin:.8rem 0; flex-wrap:wrap; }
+    .footer-links a { color:var(--oro); text-decoration:none; }
+    .footer-links a:hover { text-decoration:underline; }
+
+    @media(max-width:760px) {
+      .layout { flex-direction:column; }
+      .toc { position:static; width:100%; min-width:unset; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="translation.html" class="active">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html">Contatto</a>
+  </div>
+</nav>
+
+<div class="tile-bar"></div>
+<div class="page-header">
+  <h1>📚 文法ノート</h1>
+  <p>Grammatica Italiana — イタリア語文法リファレンス</p>
+</div>
+<div class="tile-bar"></div>
+
+<div class="layout">
+
+  <!-- ── 本文（左）── -->
+  <div class="main-col">
+
+    <a class="back-link" href="translation.html">← Traduzioni に戻る</a>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 1 現在形 -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="presente">
+      <div class="section-heading">
+        <div class="section-num">1</div>
+        <h2>現在形<span class="section-it">Presente Indicativo</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">基本の作り方 <span class="tag">-are / -ere / -ire</span></div>
+        <div class="rule-body">
+          <p>イタリア語の動詞は語尾によって3種類に分類される。語幹に以下の語尾をつける。</p>
+          <table class="conj-table">
+            <tr>
+              <th>人称</th>
+              <th class="it">-are（parlare）</th>
+              <th class="it">-ere（scrivere）</th>
+              <th class="it">-ire（dormire）</th>
+            </tr>
+            <tr><td>io</td><td class="it">parlo</td><td class="it">scrivo</td><td class="it">dormo</td></tr>
+            <tr><td>tu</td><td class="it">parli</td><td class="it">scrivi</td><td class="it">dormi</td></tr>
+            <tr><td>lui/lei</td><td class="it">parla</td><td class="it">scrive</td><td class="it">dorme</td></tr>
+            <tr><td>noi</td><td class="it">parliamo</td><td class="it">scriviamo</td><td class="it">dormiamo</td></tr>
+            <tr><td>voi</td><td class="it">parlate</td><td class="it">scrivete</td><td class="it">dormite</td></tr>
+            <tr><td>loro</td><td class="it">parlano</td><td class="it">scrivono</td><td class="it">dormono</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Io parlo italiano.</div>
+            <div class="ex-jp">私はイタリア語を話す。</div>
+          </div>
+          <div class="point">イタリア語は主語を省略するのが自然（pro-drop言語）。文脈で明らかな場合は <em>io</em> を言わなくてよい。</div>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">不規則動詞（重要）<span class="tag">irregolari</span></div>
+        <div class="rule-body">
+          <table class="conj-table">
+            <tr><th>人称</th><th class="it">essere（〜である）</th><th class="it">avere（持つ）</th><th class="it">fare（する）</th><th class="it">andare（行く）</th></tr>
+            <tr><td>io</td><td class="it">sono</td><td class="it">ho</td><td class="it">faccio</td><td class="it">vado</td></tr>
+            <tr><td>tu</td><td class="it">sei</td><td class="it">hai</td><td class="it">fai</td><td class="it">vai</td></tr>
+            <tr><td>lui/lei</td><td class="it">è</td><td class="it">ha</td><td class="it">fa</td><td class="it">va</td></tr>
+            <tr><td>noi</td><td class="it">siamo</td><td class="it">abbiamo</td><td class="it">facciamo</td><td class="it">andiamo</td></tr>
+            <tr><td>voi</td><td class="it">siete</td><td class="it">avete</td><td class="it">fate</td><td class="it">andate</td></tr>
+            <tr><td>loro</td><td class="it">sono</td><td class="it">hanno</td><td class="it">fanno</td><td class="it">vanno</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 2 近過去 -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="passato-prossimo">
+      <div class="section-heading">
+        <div class="section-num">2</div>
+        <h2>近過去<span class="section-it">Passato Prossimo</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">作り方：avere / essere ＋ 過去分詞</div>
+        <div class="rule-body">
+          <p>完了した過去の出来事を表す。英語の現在完了・過去形に相当。</p>
+          <p><strong>avere + 過去分詞</strong>（他動詞の多く）</p>
+          <div class="example">
+            <div class="ex-it">Ho mangiato la pizza.</div>
+            <div class="ex-jp">私はピザを食べた。</div>
+          </div>
+          <p><strong>essere + 過去分詞</strong>（移動・状態変化の動詞）</p>
+          <div class="example">
+            <div class="ex-it">Sono andato a Roma.</div>
+            <div class="ex-jp">私はローマへ行った。</div>
+          </div>
+          <div class="point"><em>essere</em> を使う場合、過去分詞は主語の性・数に合わせて変化する。<br>
+          例：Maria è <em>andata</em>（女性）／ Loro sono <em>andati</em>（複数）</div>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">過去分詞の作り方<span class="tag">participio passato</span></div>
+        <div class="rule-body">
+          <table class="conj-table">
+            <tr><th>語尾</th><th>過去分詞の語尾</th><th>例</th></tr>
+            <tr><td>-are</td><td class="it">-ato</td><td><span class="it">parlare → parlato</span>（話した）</td></tr>
+            <tr><td>-ere</td><td class="it">-uto</td><td><span class="it">avere → avuto</span>（持った）</td></tr>
+            <tr><td>-ire</td><td class="it">-ito</td><td><span class="it">dormire → dormito</span>（眠った）</td></tr>
+          </table>
+          <div class="point">不規則な過去分詞も多い。<em>fare → fatto</em>、<em>scrivere → scritto</em>、<em>vedere → visto</em> など。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 3 半過去 -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="imperfetto">
+      <div class="section-heading">
+        <div class="section-num">3</div>
+        <h2>半過去<span class="section-it">Imperfetto</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">使い方と作り方<span class="tag">azione continuata</span></div>
+        <div class="rule-body">
+          <p>過去の習慣・継続的な状態・背景描写に使う。英語の "used to" や "was doing" に近い。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th class="it">parlare</th><th class="it">scrivere</th><th class="it">dormire</th></tr>
+            <tr><td>io</td><td class="it">parlavo</td><td class="it">scrivevo</td><td class="it">dormivo</td></tr>
+            <tr><td>tu</td><td class="it">parlavi</td><td class="it">scrivevi</td><td class="it">dormivi</td></tr>
+            <tr><td>lui/lei</td><td class="it">parlava</td><td class="it">scriveva</td><td class="it">dormiva</td></tr>
+            <tr><td>noi</td><td class="it">parlavamo</td><td class="it">scrivevamo</td><td class="it">dormivamo</td></tr>
+            <tr><td>voi</td><td class="it">parlavate</td><td class="it">scrivevate</td><td class="it">dormivate</td></tr>
+            <tr><td>loro</td><td class="it">parlavano</td><td class="it">scrivevano</td><td class="it">dormivano</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Da bambino mangiavo sempre la pasta.</div>
+            <div class="ex-jp">子どものころ、いつもパスタを食べていた。</div>
+          </div>
+          <div class="point">近過去（passato prossimo）との違い：<br>
+          近過去 → 完了した一度の出来事 ／ 半過去 → 継続・習慣・状態</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 4 未来形 -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="futuro">
+      <div class="section-heading">
+        <div class="section-num">4</div>
+        <h2>未来形<span class="section-it">Futuro Semplice</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">作り方と用法<span class="tag">futuro semplice</span></div>
+        <div class="rule-body">
+          <p>未来の出来事・推量・婉曲表現に使う。不定詞の語尾を変化させる。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th class="it">parlare</th><th class="it">scrivere</th><th class="it">dormire</th></tr>
+            <tr><td>io</td><td class="it">parlerò</td><td class="it">scriverò</td><td class="it">dormirò</td></tr>
+            <tr><td>tu</td><td class="it">parlerai</td><td class="it">scriverai</td><td class="it">dormirai</td></tr>
+            <tr><td>lui/lei</td><td class="it">parlerà</td><td class="it">scriverà</td><td class="it">dormirà</td></tr>
+            <tr><td>noi</td><td class="it">parleremo</td><td class="it">scriveremo</td><td class="it">dormiremo</td></tr>
+            <tr><td>voi</td><td class="it">parlerete</td><td class="it">scriverete</td><td class="it">dormirete</td></tr>
+            <tr><td>loro</td><td class="it">parleranno</td><td class="it">scriveranno</td><td class="it">dormiranno</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Catturerò un kappa e diventerò ricco!</div>
+            <div class="ex-jp">河童を捕まえて金持ちになるぞ！</div>
+          </div>
+          <div class="point">日常会話では未来形より現在形で未来を表すことが多い。<br>
+          例：<em>Domani vado a Roma.</em>（明日ローマに行く）</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 5 条件法 -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="condizionale">
+      <div class="section-heading">
+        <div class="section-num">5</div>
+        <h2>条件法<span class="section-it">Condizionale Presente</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">使い方：〜したい／〜だろう<span class="tag">desiderio · ipotesi</span></div>
+        <div class="rule-body">
+          <p>丁寧な依頼・願望・仮定の結果を表す。英語の "would" に近い。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th class="it">parlare</th><th class="it">avere</th><th class="it">essere</th></tr>
+            <tr><td>io</td><td class="it">parlerei</td><td class="it">avrei</td><td class="it">sarei</td></tr>
+            <tr><td>tu</td><td class="it">parleresti</td><td class="it">avresti</td><td class="it">saresti</td></tr>
+            <tr><td>lui/lei</td><td class="it">parlerebbe</td><td class="it">avrebbe</td><td class="it">sarebbe</td></tr>
+            <tr><td>noi</td><td class="it">parleremmo</td><td class="it">avremmo</td><td class="it">saremmo</td></tr>
+            <tr><td>voi</td><td class="it">parlereste</td><td class="it">avreste</td><td class="it">sareste</td></tr>
+            <tr><td>loro</td><td class="it">parlerebbero</td><td class="it">avrebbero</td><td class="it">sarebbero</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Vorrei un caffè, per favore.</div>
+            <div class="ex-jp">コーヒーをいただけますか。</div>
+          </div>
+          <div class="point"><em>volere</em>（欲しい）の条件法 <em>vorrei</em> は特によく使う丁寧表現。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 6 接続法 -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="congiuntivo">
+      <div class="section-heading">
+        <div class="section-num">6</div>
+        <h2>接続法<span class="section-it">Congiuntivo</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">接続法現在<span class="tag">congiuntivo presente</span></div>
+        <div class="rule-body">
+          <p>感情・意見・疑い・望みを表す動詞の後ろで使う。<em>che</em>（〜ということ）の後ろに来ることが多い。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th class="it">parlare</th><th class="it">scrivere</th><th class="it">essere</th></tr>
+            <tr><td>io</td><td class="it">parli</td><td class="it">scriva</td><td class="it">sia</td></tr>
+            <tr><td>tu</td><td class="it">parli</td><td class="it">scriva</td><td class="it">sia</td></tr>
+            <tr><td>lui/lei</td><td class="it">parli</td><td class="it">scriva</td><td class="it">sia</td></tr>
+            <tr><td>noi</td><td class="it">parliamo</td><td class="it">scriviamo</td><td class="it">siamo</td></tr>
+            <tr><td>voi</td><td class="it">parliate</td><td class="it">scriviate</td><td class="it">siate</td></tr>
+            <tr><td>loro</td><td class="it">parlino</td><td class="it">scrivano</td><td class="it">siano</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Penso che lui sia stanco.</div>
+            <div class="ex-jp">彼は疲れていると思う。</div>
+          </div>
+          <div class="point">接続法を使う主な動詞：<em>pensare, credere, sperare, volere, temere, pare</em> など。</div>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">接続法過去<span class="tag">congiuntivo passato</span></div>
+        <div class="rule-body">
+          <p><em>essere / avere</em> の接続法現在 ＋ 過去分詞。主節より前の出来事を表す。</p>
+          <div class="example">
+            <div class="ex-it">A me pare che la mia esistenza sia incominciata in quel momento.</div>
+            <div class="ex-jp">私の人生は、その瞬間から始まったような気がする。</div>
+          </div>
+          <div class="point"><em>pare che</em> の後ろなので <em>è incominciata</em>（直説法）ではなく <em>sia incominciata</em>（接続法）になる。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 7 命令形 -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="imperativo">
+      <div class="section-heading">
+        <div class="section-num">7</div>
+        <h2>命令形<span class="section-it">Imperativo</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">tu / voi / noi への命令<span class="tag">imperativo</span></div>
+        <div class="rule-body">
+          <table class="conj-table">
+            <tr><th>人称</th><th class="it">parlare</th><th class="it">scrivere</th><th class="it">dormire</th></tr>
+            <tr><td>tu</td><td class="it">parla!</td><td class="it">scrivi!</td><td class="it">dormi!</td></tr>
+            <tr><td>voi</td><td class="it">parlate!</td><td class="it">scrivete!</td><td class="it">dormite!</td></tr>
+            <tr><td>noi</td><td class="it">parliamo!</td><td class="it">scriviamo!</td><td class="it">dormiamo!</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Aspetta! — Andiamo!</div>
+            <div class="ex-jp">待って！ ― 行こう！</div>
+          </div>
+          <div class="point">否定命令（tu）は <em>non + 不定詞</em>。例：<em>Non parlare!</em>（話すな！）</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════ -->
+    <!-- § 8 ジェルンディオ -->
+    <!-- ══════════════════════════════ -->
+    <section class="grammar-section" id="gerundio">
+      <div class="section-heading">
+        <div class="section-num">8</div>
+        <h2>ジェルンディオ<span class="section-it">Gerundio</span></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title">作り方と stare + gerundio<span class="tag">azione in corso</span></div>
+        <div class="rule-body">
+          <p>英語の "-ing" に相当。<em>stare + gerundio</em> で「〜しているところ」を表す。</p>
+          <table class="conj-table">
+            <tr><th>語尾</th><th>ジェルンディオ</th><th>例</th></tr>
+            <tr><td>-are</td><td class="it">-ando</td><td><span class="it">parlare → parlando</span></td></tr>
+            <tr><td>-ere</td><td class="it">-endo</td><td><span class="it">scrivere → scrivendo</span></td></tr>
+            <tr><td>-ire</td><td class="it">-endo</td><td><span class="it">dormire → dormendo</span></td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Che stai facendo?</div>
+            <div class="ex-jp">何をしているの？</div>
+          </div>
+          <div class="point"><em>stare + gerundio</em> は英語の "be + -ing" とほぼ同じ構造。<em>stai</em> = stare の tu 形。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 新しいセクションはここに追加 -->
+
+  </div><!-- /main-col -->
+
+  <!-- ── 目次（右）── -->
+  <nav class="toc">
+    <div class="toc-inner">
+      <h3>📂 目次</h3>
+      <a href="#presente">現在形</a>
+      <a href="#passato-prossimo">近過去</a>
+      <a href="#imperfetto">半過去</a>
+      <a href="#futuro">未来形</a>
+      <a href="#condizionale">条件法</a>
+      <a href="#congiuntivo">接続法</a>
+      <a href="#imperativo">命令形</a>
+      <a href="#gerundio">ジェルンディオ</a>
+    </div>
+  </nav>
+
+</div><!-- /layout -->
+
+<footer>
+  <div class="footer-logo">🍕 Fetta di Manga</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="translation.html">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html">Contatto</a>
+  </div>
+  <p style="opacity:.6; font-size:.82rem;">© 2024 Fetta di Manga · Fatto con ❤️ e molto peperoncino</p>
+</footer>
+
+<script>
+  const btn   = document.getElementById('navHamburger');
+  const links = document.getElementById('navLinks');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
+
+  // 目次クリックでスムーズスクロール
+  document.querySelectorAll('.toc-inner a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+</script>
+</body>
+</html>
