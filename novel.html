@@ -100,6 +100,48 @@
     }
     .back-link:hover { border-color:var(--rosso); }
 
+    /* ── 本のリンクカード ── */
+    .book-link {
+      display:flex;
+      align-items:center;
+      gap:1.2rem;
+      background:#fff;
+      border:2px solid var(--marrone);
+      border-radius:4px;
+      box-shadow:5px 5px 0 var(--crema-dk);
+      padding:1.1rem 1.4rem;
+      text-decoration:none;
+      color:inherit;
+      transition:transform .18s, box-shadow .18s;
+      animation:fadeUp .4s ease both;
+    }
+    .book-link:hover {
+      transform:translate(-2px,-2px);
+      box-shadow:7px 7px 0 var(--terracotta);
+    }
+    .book-icon {
+      font-size:2rem;
+      flex-shrink:0;
+    }
+    .book-info { flex:1; }
+    .book-title {
+      font-family:'Playfair Display',serif;
+      font-size:1rem; font-weight:700;
+      color:var(--marrone);
+      letter-spacing:.5px;
+      line-height:1.4;
+    }
+    .book-sub {
+      font-size:.8rem; font-style:italic;
+      color:var(--terracotta); opacity:.8;
+      margin-top:3px;
+    }
+    .book-arrow {
+      font-size:1.2rem;
+      color:var(--rosso);
+      flex-shrink:0;
+    }
+
     /* ── NOVEL CARD ── */
     .novel-card {
       background:#fff;
@@ -117,7 +159,6 @@
       to   { opacity:1; transform:none; }
     }
 
-    /* 日付バー */
     .novel-date {
       background:var(--oro);
       border-bottom:2px solid var(--marrone);
@@ -132,37 +173,23 @@
       font-size:.72rem; font-weight:800; letter-spacing:1px; text-transform:uppercase;
       background:var(--marrone); color:var(--oro); padding:3px 10px; border-radius:2px;
     }
-
-    /* 原文 */
     .novel-original {
       padding:1.1rem 1.6rem;
-      font-size:1rem; line-height:1.75;
-      color:var(--testo);
-      border-bottom:1px solid var(--crema-dk);
-      font-style:italic;
+      font-size:1rem; line-height:1.75; color:var(--testo);
+      border-bottom:1px solid var(--crema-dk); font-style:italic;
     }
-
-    /* 日本語訳 */
     .novel-ja {
       padding:1rem 1.6rem;
-      font-size:.97rem; line-height:1.75;
-      color:var(--marrone);
-      background:var(--crema-dk);
-      border-bottom:1px solid var(--crema-dk);
+      font-size:.97rem; line-height:1.75; color:var(--marrone);
+      background:var(--crema-dk); border-bottom:1px solid var(--crema-dk);
     }
-
-    /* 解説 */
     .novel-note {
       padding:1rem 1.6rem;
-      font-size:.88rem; line-height:1.8;
-      color:#5a3820;
+      font-size:.88rem; line-height:1.8; color:#5a3820;
       border-top:2px dashed var(--crema-dk);
     }
-    .novel-note::before {
-      content:'📝 ';
-    }
+    .novel-note::before { content:'📝 '; }
 
-    /* divider */
     .section-divider {
       display:flex; align-items:center; gap:12px;
     }
@@ -217,35 +244,28 @@
 
   <a class="back-link" href="translation.html">← Traduzioni に戻る</a>
 
-  <div class="novel-card">
-    <div class="novel-date">
-      <span class="date">2026 · 04 · 21</span>
-      <span class="source">Stuart Dybek · "Farewell"</span>
+  <!-- 本のリンクカード -->
+  <a class="book-link" href="ricordidinfanzia.html">
+    <div class="book-icon">📗</div>
+    <div class="book-info">
+      <div class="book-title">Ricordi d'Infanzia e di Scuola</div>
+      <div class="book-sub">翻訳ノートを読む →</div>
     </div>
-    <div class="novel-original">
-      "A me pare che la mia esistenza sia incominciata in quel momento."
-    </div>
-    <div class="novel-ja">
-      「私の人生は、その瞬間から始まったような気がする。」
-    </div>
-    <div class="novel-note">
-      <em>pare che</em> の後ろは接続法（congiuntivo）になるため <em>è incominciata</em> ではなく <em>sia incominciata</em>。<em>esistenza</em>（存在）を「人生」と意訳することで日本語として自然に読める。<em>A me</em> は「少なくとも私には」という強調のニュアンス。
-    </div>
-  </div>
+    <div class="book-arrow">→</div>
+  </a>
 
   <div class="section-divider"><span>•</span></div>
 
-  <!-- 追加エントリーはここにコピペで増やす -->
+  <!-- 本を追加するときはここにコピペ -->
   <!--
-  <div class="novel-card">
-    <div class="novel-date">
-      <span class="date">2026 · MM · DD</span>
-      <span class="source">出典</span>
+  <a class="book-link" href="ファイル名.html">
+    <div class="book-icon">📘</div>
+    <div class="book-info">
+      <div class="book-title">タイトル</div>
+      <div class="book-sub">翻訳ノートを読む →</div>
     </div>
-    <div class="novel-original">原文（一文）</div>
-    <div class="novel-ja">「日本語訳」</div>
-    <div class="novel-note">解説文をここに。</div>
-  </div>
+    <div class="book-arrow">→</div>
+  </a>
 
   <div class="section-divider"><span>•</span></div>
   -->
