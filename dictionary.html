@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>辞書 – Fetta di Manga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Satisfy&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosso:#C0392B; --rosso-dk:#922B21; --terracotta:#D4693A;
+      --oro:#E8B84B; --crema:#FAF3E0; --crema-dk:#F0E6C8;
+      --marrone:#5C3317; --verde:#2E7D32; --testo:#2C1810;
+      --ombra:rgba(44,24,16,.18);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:'Lora',serif; color:var(--testo);
+      background-color:var(--crema);
+      background-image:
+        repeating-linear-gradient(45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%),
+        repeating-linear-gradient(-45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%);
+      background-size:28px 28px;
+    }
+
+    .tile-bar {
+      height:14px;
+      background:repeating-linear-gradient(90deg,
+        var(--rosso) 0, var(--rosso) 18px,
+        var(--oro)   18px, var(--oro)  36px,
+        var(--verde) 36px, var(--verde) 54px,
+        var(--crema) 54px, var(--crema) 72px);
+    }
+
+    /* ── NAV ── */
+    nav {
+      background:var(--rosso); display:flex; align-items:center; justify-content:space-between;
+      padding:0 2.5rem; height:64px;
+      box-shadow:0 4px 16px var(--ombra); position:sticky; top:0; z-index:100;
+      border-bottom:4px solid var(--oro);
+    }
+    .nav-logo { font-family:'Satisfy',cursive; color:var(--crema); font-size:1.7rem; letter-spacing:1px; text-decoration:none; }
+    .nav-links { display:flex; gap:1.6rem; }
+    .nav-links a {
+      color:var(--crema); text-decoration:none; font-family:'Lora',serif;
+      font-size:.95rem; font-weight:600; letter-spacing:.5px; padding:4px 0;
+      border-bottom:2px solid transparent; transition:border-color .25s,color .25s;
+    }
+    .nav-links a:hover,.nav-links a.active { border-color:var(--oro); color:var(--oro); }
+    .nav-hamburger {
+      display:none; flex-direction:column; justify-content:center; gap:5px;
+      background:none; border:none; cursor:pointer; padding:4px;
+    }
+    .nav-hamburger span {
+      display:block; width:26px; height:3px; background:var(--crema); border-radius:2px;
+      transition:transform .3s, opacity .3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity:0; }
+    .nav-hamburger.open span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+    @media (max-width:640px) {
+      nav { padding:0 1.2rem; }
+      .nav-hamburger { display:flex; }
+      .nav-links {
+        display:none; position:fixed; top:64px; left:0; right:0;
+        background:var(--rosso); flex-direction:column; gap:0;
+        border-bottom:4px solid var(--oro); box-shadow:0 8px 24px var(--ombra); z-index:150;
+      }
+      .nav-links.open { display:flex; }
+      .nav-links a { padding:1rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.15); font-size:1rem; }
+      .nav-links a:last-child { border-bottom:none; }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background:var(--marrone); color:var(--crema);
+      text-align:center; padding:3rem 2rem 2.5rem;
+      position:relative; overflow:hidden;
+    }
+    .page-header::before {
+      content:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z';
+      position:absolute; bottom:-8px; left:0; right:0;
+      font-size:4rem; opacity:.04; letter-spacing:8px;
+      line-height:1; white-space:nowrap; overflow:hidden;
+      font-family:'Playfair Display',serif;
+    }
+    .page-header h1 { font-family:'Satisfy',cursive; font-size:2.8rem; color:var(--oro); position:relative; }
+    .page-header p { font-style:italic; opacity:.8; margin-top:.5rem; position:relative; font-size:1rem; }
+
+    /* ── LAYOUT ── */
+    .layout {
+      max-width:1060px;
+      margin:3rem auto 5rem;
+      padding:0 2rem;
+      display:flex; gap:2.4rem; align-items:flex-start;
+    }
+    .main-col { flex:3; min-width:0; }
+    .sidebar-col { flex:1; min-width:180px; position:sticky; top:84px; }
+
+    /* ── SIDEBAR ── */
+    .sidebar-block {
+      background:#fff; border:2px solid var(--crema-dk);
+      border-radius:4px; box-shadow:4px 4px 0 var(--crema-dk);
+      padding:1.2rem; margin-bottom:1.2rem;
+    }
+    .sidebar-block h3 {
+      font-family:'Playfair Display',serif; font-size:.78rem; font-weight:700;
+      letter-spacing:2px; text-transform:uppercase; color:var(--terracotta);
+      margin-bottom:.8rem; padding-bottom:.5rem; border-bottom:2px solid var(--crema-dk);
+    }
+    .sidebar-link {
+      display:flex; align-items:center; gap:.6rem;
+      color:var(--marrone); text-decoration:none;
+      font-family:'Lora',serif; font-size:.88rem; font-weight:600;
+      padding:.55rem .4rem; border-bottom:1px dashed var(--crema-dk);
+      transition:background .2s, color .2s, padding-left .2s; border-radius:2px;
+    }
+    .sidebar-link:last-child { border-bottom:none; }
+    .sidebar-link::before { content:'▶'; font-size:.6rem; color:var(--rosso); flex-shrink:0; }
+    .sidebar-link:hover { background:var(--crema-dk); color:var(--rosso); padding-left:.7rem; }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display:inline-flex; align-items:center; gap:.4rem;
+      color:var(--rosso); text-decoration:none; font-weight:700;
+      font-size:.9rem; margin-bottom:1.2rem; padding:8px 0;
+      border-bottom:2px solid transparent; transition:border-color .2s;
+    }
+    .back-link:hover { border-color:var(--rosso); }
+
+    /* ── 検索バー ── */
+    .search-wrap {
+      position:relative; margin-bottom:.8rem;
+    }
+    .search-input {
+      width:100%; background:#fff;
+      border:2px solid var(--marrone); border-radius:3px;
+      box-shadow:3px 3px 0 var(--crema-dk);
+      color:var(--testo); font-family:'Lora',serif;
+      font-size:.95rem; font-weight:600;
+      padding:12px 44px 12px 16px; outline:none;
+      transition:border-color .2s, box-shadow .2s;
+    }
+    .search-input::placeholder { color:rgba(44,24,16,.3); font-weight:400; }
+    .search-input:focus { border-color:var(--rosso); box-shadow:3px 3px 0 var(--rosso-dk); }
+    .search-icon {
+      position:absolute; right:14px; top:50%; transform:translateY(-50%);
+      font-size:1.1rem; pointer-events:none;
+    }
+    .result-count {
+      font-family:'Playfair Display',serif; font-size:.78rem;
+      color:var(--terracotta); letter-spacing:1px;
+      text-transform:uppercase; margin-bottom:1rem; min-height:1.2rem;
+    }
+
+    /* ── 単語リスト ── */
+    .word-list { display:flex; flex-direction:column; gap:.8rem; }
+
+    /* ── 単語カード ── */
+    .word-card {
+      background:#fff;
+      border:2px solid var(--marrone);
+      border-radius:4px;
+      box-shadow:4px 4px 0 var(--crema-dk);
+      overflow:hidden;
+      cursor:pointer;
+      transition:transform .15s, box-shadow .15s;
+      position:relative;
+    }
+    .word-card::before {
+      content:''; position:absolute; left:0; top:0; bottom:0;
+      width:5px; background:var(--rosso); border-radius:2px 0 0 2px;
+    }
+    .word-card:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--terracotta); }
+    .word-card.open { border-color:var(--rosso); }
+
+    /* ヘッダー行 */
+    .word-header {
+      display:flex; align-items:center; gap:1rem;
+      padding:.85rem 1rem .85rem 1.2rem;
+      flex-wrap:wrap;
+    }
+    .word-it-label {
+      font-family:'Playfair Display',serif;
+      font-size:1.05rem; font-weight:700; font-style:italic;
+      color:var(--marrone); flex:1;
+    }
+    .word-ja-label {
+      font-size:.85rem; font-weight:600; color:var(--terracotta);
+    }
+    .word-pos {
+      font-size:.68rem; font-weight:700; letter-spacing:1px;
+      text-transform:uppercase; background:var(--crema-dk);
+      color:var(--marrone); padding:2px 8px; border-radius:2px;
+    }
+    .word-arrow {
+      font-size:1rem; color:var(--rosso); flex-shrink:0;
+      transition:transform .2s; opacity:.7;
+    }
+    .word-card.open .word-arrow { transform:rotate(90deg); }
+
+    /* 展開エリア */
+    .word-detail {
+      display:none;
+      border-top:1px dashed var(--crema-dk);
+      margin:0 1rem 0 1.2rem;
+    }
+    .word-card.open .word-detail { display:block; }
+
+    .word-meaning {
+      padding:.9rem 0;
+      font-size:.88rem; line-height:1.8;
+      color:var(--testo); opacity:.9;
+      border-bottom:1px dashed var(--crema-dk);
+    }
+
+    .word-example {
+      padding:.8rem 0 1rem;
+      font-size:.86rem;
+    }
+    .word-example .ex-it {
+      font-style:italic; color:var(--marrone); font-weight:600;
+      margin-bottom:4px;
+    }
+    .word-example .ex-jp {
+      color:var(--terracotta); font-size:.82rem;
+    }
+
+    /* 検索ゼロ件 */
+    .no-result {
+      display:none; text-align:center;
+      padding:2.5rem 0; font-family:'Playfair Display',serif;
+      font-size:.9rem; color:var(--terracotta); opacity:.7;
+      letter-spacing:1px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--marrone); color:var(--crema);
+      text-align:center; padding:2.5rem 1rem; font-size:.88rem;
+      border-top:4px solid var(--oro);
+    }
+    .footer-logo { font-family:'Satisfy',cursive; font-size:1.5rem; color:var(--oro); margin-bottom:.5rem; }
+    .footer-links { display:flex; gap:1.2rem; justify-content:center; margin:.8rem 0; flex-wrap:wrap; }
+    .footer-links a { color:var(--oro); text-decoration:none; }
+    .footer-links a:hover { text-decoration:underline; }
+
+    @media(max-width:760px) {
+      .layout { flex-direction:column; }
+      .sidebar-col { position:static; width:100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="translation.html" class="active">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html">Contatto</a>
+  </div>
+</nav>
+
+<div class="tile-bar"></div>
+<div class="page-header">
+  <h1>📖 Dizionario</h1>
+  <p>クリックで解説・例文を表示</p>
+</div>
+<div class="tile-bar"></div>
+
+<div class="layout">
+
+  <!-- ── メイン ── -->
+  <div class="main-col">
+
+    <a class="back-link" href="translation.html">← Traduzioni に戻る</a>
+
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="searchInput"
+        placeholder="単語を検索…" oninput="filterWords()" autocomplete="off">
+      <span class="search-icon">🔍</span>
+    </div>
+    <p class="result-count" id="resultCount"></p>
+
+    <div class="word-list" id="wordList"></div>
+    <p class="no-result" id="noResult">見つかりませんでした。</p>
+
+  </div>
+
+  <!-- ── サイドバー ── -->
+  <aside class="sidebar-col">
+    <div class="sidebar-block">
+      <h3>📂 メニュー</h3>
+      <a class="sidebar-link" href="grammar.html">文法ノート</a>
+      <a class="sidebar-link" href="novel.html">小説翻訳</a>
+      <a class="sidebar-link" href="studyblog.html">勉強のひとことブログ</a>
+      <a class="sidebar-link" href="dictionary.html">辞書</a>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <div class="footer-logo">🍕 Fetta di Manga</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="translation.html">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html">Contatto</a>
+  </div>
+  <p style="opacity:.6; font-size:.82rem;">© 2024 Fetta di Manga · Fatto con ❤️ e molto peperoncino</p>
+</footer>
+
+<script>
+  /* =============================================
+     ★ 単語データ ★
+     追加するときはこの配列にオブジェクトを足すだけ！
+  ============================================= */
+  const words = [
+
+    { it: "esistenza", pos: "f. 名詞",
+      ja: "存在・生涯・人生",
+      meaning: "英語の "existence" に相当。哲学的な「存在」から日常的な「人生・暮らし」まで幅広く使う。小説では vita（生命）より格調高い表現として使われることが多い。",
+      exIt: "La mia esistenza è cambiata da quel giorno.",
+      exJa: "あの日から私の人生は変わった。" },
+
+    { it: "parere", pos: "v. 動詞",
+      ja: "〜のように思われる・〜に見える",
+      meaning: "英語の "seem / appear" に近い。Mi pare che ... で「私には〜と思える」。pare che の後ろは接続法（congiuntivo）になる。",
+      exIt: "Mi pare che sia tardi.",
+      exJa: "もう遅いような気がする。" },
+
+    { it: "ricco", pos: "agg. 形容詞",
+      ja: "豊かな・裕福な・金持ちの",
+      meaning: "物質的な「金持ち」だけでなく、「豊かな味わい」「色彩豊か」など幅広く使える形容詞。diventare ricco で「金持ちになる」。",
+      exIt: "Diventerò ricco tutto d'un colpo!",
+      exJa: "一気に金持ちになるぞ！" },
+
+    { it: "debito", pos: "m. 名詞",
+      ja: "借金・負債",
+      meaning: "複数形は debiti。fare debiti で「借金を作る」。dei debiti のように不定冠詞の複数形（dei）と使うことが多い。",
+      exIt: "Hai fatto dei debiti, che stai facendo?",
+      exJa: "借金作って何してるの？" },
+
+    { it: "catturare", pos: "v. 動詞",
+      ja: "捕まえる・捕獲する",
+      meaning: "未来形は catturerò（私は捕まえるだろう）。英語の "capture" に相当。",
+      exIt: "Catturerò un kappa e diventerò ricco!",
+      exJa: "河童を捕まえて金持ちになるぞ！" },
+
+    { it: "umano", pos: "agg./m. 形容詞・名詞",
+      ja: "人間の・人間らしい・人間",
+      meaning: "形容詞として「人間的な」、名詞として「人間」を意味する。non sei nemmeno umano で「あなたは人間ですらない」。",
+      exIt: "Non sei nemmeno umano.",
+      exJa: "あんたなんか人間じゃない。" },
+
+    { it: "nemmeno", pos: "avv. 副詞",
+      ja: "〜ですらない・〜さえもない",
+      meaning: "強調の否定を表す副詞。neanche とほぼ同じ意味。「〜さえも…ない」というニュアンスを加える。",
+      exIt: "Non ha nemmeno risposto.",
+      exJa: "彼は返事すらしなかった。" },
+
+    { it: "gerundio", pos: "m. 名詞",
+      ja: "ジェルンディオ（動名詞）",
+      meaning: "イタリア語の動詞変化のひとつ。stare + gerundio で「〜しているところ」を表す。英語の "while + -ing" に相当。-are → -ando / -ere・-ire → -endo。",
+      exIt: "Che stai facendo?",
+      exJa: "何をしているの？" },
+
+    /* ── 追加するときはここにコピペ ──
+    { it: "イタリア語", pos: "品詞",
+      ja: "日本語訳",
+      meaning: "解説文。",
+      exIt: "例文（イタリア語）",
+      exJa: "例文（日本語）" },
+    */
+  ];
+
+  /* ─ render ─ */
+  let currentQuery = '';
+
+  function filterWords() {
+    currentQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+    const filtered = words.filter(w =>
+      !currentQuery ||
+      w.it.toLowerCase().includes(currentQuery) ||
+      w.ja.includes(currentQuery) ||
+      w.meaning.includes(currentQuery)
+    );
+    renderWords(filtered);
+  }
+
+  function renderWords(list) {
+    const container = document.getElementById('wordList');
+    const noResult  = document.getElementById('noResult');
+    const countEl   = document.getElementById('resultCount');
+
+    if (list.length === 0) {
+      container.innerHTML = '';
+      noResult.style.display = 'block';
+      noResult.textContent = '「' + currentQuery + '」は見つかりませんでした。';
+      countEl.textContent = '';
+      return;
+    }
+
+    noResult.style.display = 'none';
+    countEl.textContent = list.length + ' 件';
+
+    container.innerHTML = list.map(w => `
+      <div class="word-card" onclick="this.classList.toggle('open')">
+        <div class="word-header">
+          <span class="word-it-label">${w.it}</span>
+          <span class="word-pos">${w.pos}</span>
+          <span class="word-ja-label">${w.ja}</span>
+          <span class="word-arrow">›</span>
+        </div>
+        <div class="word-detail">
+          <div class="word-meaning">${w.meaning}</div>
+          ${w.exIt ? `
+          <div class="word-example">
+            <div class="ex-it">${w.exIt}</div>
+            <div class="ex-jp">${w.exJa || ''}</div>
+          </div>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  filterWords();
+
+  /* ─ ハンバーガー ─ */
+  const btn   = document.getElementById('navHamburger');
+  const links = document.getElementById('navLinks');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>
