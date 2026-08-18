@@ -22,7 +22,6 @@
         repeating-linear-gradient(-45deg,rgba(216,167,80,.07) 0,rgba(216,167,80,.07) 1px,transparent 0,transparent 50%);
       background-size:28px 28px;
     }
-
     .tile-bar {
       height:14px;
       background:repeating-linear-gradient(90deg,
@@ -31,8 +30,6 @@
         var(--verde) 36px, var(--verde) 54px,
         var(--crema) 54px, var(--crema) 72px);
     }
-
-    /* ── NAV ── */
     nav {
       background:var(--rosso); display:flex; align-items:center; justify-content:space-between;
       padding:0 2.5rem; height:64px;
@@ -70,8 +67,6 @@
       .nav-links a { padding:1rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.15); font-size:1rem; }
       .nav-links a:last-child { border-bottom:none; }
     }
-
-    /* ── PAGE HEADER ── */
     .page-header {
       background:var(--marrone); color:var(--crema);
       text-align:center; padding:3rem 2rem 2.5rem;
@@ -86,18 +81,12 @@
     }
     .page-header h1 { font-family:'Satisfy',cursive; font-size:2.8rem; color:var(--oro); position:relative; }
     .page-header p { font-style:italic; opacity:.8; margin-top:.5rem; position:relative; font-size:1rem; }
-
-    /* ── LAYOUT ── */
     .layout {
-      max-width:1060px;
-      margin:3rem auto 5rem;
-      padding:0 2rem;
+      max-width:1060px; margin:3rem auto 5rem; padding:0 2rem;
       display:flex; gap:2.4rem; align-items:flex-start;
     }
     .main-col { flex:3; min-width:0; }
     .sidebar-col { flex:1; min-width:180px; position:sticky; top:84px; }
-
-    /* ── SIDEBAR ── */
     .sidebar-block {
       background:#fff; border:2px solid var(--crema-dk);
       border-radius:4px; box-shadow:4px 4px 0 var(--crema-dk);
@@ -118,8 +107,6 @@
     .sidebar-link:last-child { border-bottom:none; }
     .sidebar-link::before { content:'▶'; font-size:.6rem; color:var(--rosso); flex-shrink:0; }
     .sidebar-link:hover { background:var(--crema-dk); color:var(--rosso); padding-left:.7rem; }
-
-    /* ── BACK LINK ── */
     .back-link {
       display:inline-flex; align-items:center; gap:.4rem;
       color:var(--rosso); text-decoration:none; font-weight:700;
@@ -127,11 +114,7 @@
       border-bottom:2px solid transparent; transition:border-color .2s;
     }
     .back-link:hover { border-color:var(--rosso); }
-
-    /* ── 検索バー ── */
-    .search-wrap {
-      position:relative; margin-bottom:.8rem;
-    }
+    .search-wrap { position:relative; margin-bottom:.8rem; }
     .search-input {
       width:100%; background:#fff;
       border:2px solid var(--marrone); border-radius:3px;
@@ -152,20 +135,12 @@
       color:var(--terracotta); letter-spacing:1px;
       text-transform:uppercase; margin-bottom:1rem; min-height:1.2rem;
     }
-
-    /* ── 単語リスト ── */
     .word-list { display:flex; flex-direction:column; gap:.8rem; }
-
-    /* ── 単語カード ── */
     .word-card {
-      background:#fff;
-      border:2px solid var(--marrone);
-      border-radius:4px;
-      box-shadow:4px 4px 0 var(--crema-dk);
-      overflow:hidden;
-      cursor:pointer;
-      transition:transform .15s, box-shadow .15s;
-      position:relative;
+      background:#fff; border:2px solid var(--marrone);
+      border-radius:4px; box-shadow:4px 4px 0 var(--crema-dk);
+      overflow:hidden; cursor:pointer;
+      transition:transform .15s, box-shadow .15s; position:relative;
     }
     .word-card::before {
       content:''; position:absolute; left:0; top:0; bottom:0;
@@ -173,21 +148,16 @@
     }
     .word-card:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--terracotta); }
     .word-card.open { border-color:var(--rosso); }
-
-    /* ヘッダー行 */
     .word-header {
       display:flex; align-items:center; gap:1rem;
-      padding:.85rem 1rem .85rem 1.2rem;
-      flex-wrap:wrap;
+      padding:.85rem 1rem .85rem 1.2rem; flex-wrap:wrap;
     }
     .word-it-label {
       font-family:'Playfair Display',serif;
       font-size:1.05rem; font-weight:700; font-style:italic;
       color:var(--marrone); flex:1;
     }
-    .word-ja-label {
-      font-size:.85rem; font-weight:600; color:var(--terracotta);
-    }
+    .word-ja-label { font-size:.85rem; font-weight:600; color:var(--terracotta); }
     .word-pos {
       font-size:.68rem; font-weight:700; letter-spacing:1px;
       text-transform:uppercase; background:var(--crema-dk);
@@ -198,43 +168,25 @@
       transition:transform .2s; opacity:.7;
     }
     .word-card.open .word-arrow { transform:rotate(90deg); }
-
-    /* 展開エリア */
     .word-detail {
-      display:none;
-      border-top:1px dashed var(--crema-dk);
+      display:none; border-top:1px dashed var(--crema-dk);
       margin:0 1rem 0 1.2rem;
     }
     .word-card.open .word-detail { display:block; }
-
     .word-meaning {
-      padding:.9rem 0;
-      font-size:.88rem; line-height:1.8;
-      color:var(--testo); opacity:.9;
-      border-bottom:1px dashed var(--crema-dk);
+      padding:.9rem 0; font-size:.88rem; line-height:1.8;
+      color:var(--testo); opacity:.9; border-bottom:1px dashed var(--crema-dk);
     }
-
-    .word-example {
-      padding:.8rem 0 1rem;
-      font-size:.86rem;
-    }
+    .word-example { padding:.8rem 0 1rem; font-size:.86rem; }
     .word-example .ex-it {
-      font-style:italic; color:var(--marrone); font-weight:600;
-      margin-bottom:4px;
+      font-style:italic; color:var(--marrone); font-weight:600; margin-bottom:4px;
     }
-    .word-example .ex-jp {
-      color:var(--terracotta); font-size:.82rem;
-    }
-
-    /* 検索ゼロ件 */
+    .word-example .ex-jp { color:var(--terracotta); font-size:.82rem; }
     .no-result {
-      display:none; text-align:center;
-      padding:2.5rem 0; font-family:'Playfair Display',serif;
-      font-size:.9rem; color:var(--terracotta); opacity:.7;
-      letter-spacing:1px;
+      display:none; text-align:center; padding:2.5rem 0;
+      font-family:'Playfair Display',serif; font-size:.9rem;
+      color:var(--terracotta); opacity:.7; letter-spacing:1px;
     }
-
-    /* ── FOOTER ── */
     footer {
       background:var(--marrone); color:var(--crema);
       text-align:center; padding:2.5rem 1rem; font-size:.88rem;
@@ -244,7 +196,6 @@
     .footer-links { display:flex; gap:1.2rem; justify-content:center; margin:.8rem 0; flex-wrap:wrap; }
     .footer-links a { color:var(--oro); text-decoration:none; }
     .footer-links a:hover { text-decoration:underline; }
-
     @media(max-width:760px) {
       .layout { flex-direction:column; }
       .sidebar-col { position:static; width:100%; }
@@ -276,24 +227,18 @@
 
 <div class="layout">
 
-  <!-- ── メイン ── -->
   <div class="main-col">
-
     <a class="back-link" href="translation.html">← Traduzioni に戻る</a>
-
     <div class="search-wrap">
       <input class="search-input" type="text" id="searchInput"
         placeholder="単語を検索…" oninput="filterWords()" autocomplete="off">
       <span class="search-icon">🔍</span>
     </div>
     <p class="result-count" id="resultCount"></p>
-
     <div class="word-list" id="wordList"></div>
     <p class="no-result" id="noResult">見つかりませんでした。</p>
-
   </div>
 
-  <!-- ── サイドバー ── -->
   <aside class="sidebar-col">
     <div class="sidebar-block">
       <h3>📂 メニュー</h3>
@@ -319,10 +264,6 @@
 </footer>
 
 <script>
-  /* =============================================
-     ★ 単語データ ★
-     追加するときはこの配列にオブジェクトを足すだけ！
-  ============================================= */
   const words = [
     { it: "esistenza", pos: "名詞",
       ja: "存在・生涯・人生",
@@ -374,33 +315,33 @@
 
     { it: "macchina", pos: "女性名詞",
       ja: "車",
-      meaning: '工業機械や様々な機械装置も含まれる。',
+      meaning: "工業機械や様々な機械装置も含まれる。",
       exIt: "Ho comprato una nuova macchina la settimana scorsa.",
       exJa: "先週、新しい車を買った。" },
 
     { it: "andare", pos: "動詞",
       ja: "行く",
-      meaning: '動詞 andare（行く）は一人称複数・現在形',
+      meaning: "動詞 andare（行く）は一人称複数・現在形。",
       exIt: "Andiamo al lavoro insieme.",
-      exJa: "私たちは一緒に仕事に行く。" }
+      exJa: "私たちは一緒に仕事に行く。" },
 
-    { it: "parigi", pos: "動詞",
+    { it: "Parigi", pos: "固有名詞",
       ja: "パリ",
-      meaning: 'フランスのパリ',
+      meaning: "フランスの首都パリのイタリア語名。",
       exIt: "Voglio visitare Parigi un giorno.",
-      exJa: "いつかパリを訪れたい。" }
+      exJa: "いつかパリを訪れたい。" },
 
-    { it: "sveglia", pos: "動詞",
-      ja: "目覚まし時計",
-      meaning: 'または 「起きて！」 の意味',
+    { it: "sveglia", pos: "女性名詞",
+      ja: "目覚まし時計・「起きて！」",
+      meaning: "名詞として「目覚まし時計」、動詞 svegliare の命令形として「起きて！」の意味にもなる。",
       exIt: "Ho comprato una nuova sveglia.",
-      exJa: "新しい目覚まし時計を買った。" }
+      exJa: "新しい目覚まし時計を買った。" },
 
     { it: "sentire", pos: "動詞",
-      ja: "感じる／聞こえる／匂いを感じる",
-      meaning: '意味が幅広く語感で感じること',
+      ja: "感じる・聞こえる・匂いを感じる",
+      meaning: "意味が幅広く、感覚全般に使える動詞。聞く・感じる・匂う・触れる など文脈によって訳が変わる。",
       exIt: "Sentono la musica da lontano.",
-      exJa: "彼らは遠くから音楽が聞こえる。" }
+      exJa: "彼らは遠くから音楽が聞こえる。" },
 
     /* 追加するときはここにコピペ
     { it: "イタリア語", pos: "品詞",
@@ -411,7 +352,6 @@
     */
   ];
 
-  /* ─ render ─ */
   let currentQuery = '';
 
   function filterWords() {
@@ -429,7 +369,6 @@
     const container = document.getElementById('wordList');
     const noResult  = document.getElementById('noResult');
     const countEl   = document.getElementById('resultCount');
-
     if (list.length === 0) {
       container.innerHTML = '';
       noResult.style.display = 'block';
@@ -437,10 +376,8 @@
       countEl.textContent = '';
       return;
     }
-
     noResult.style.display = 'none';
     countEl.textContent = list.length + ' 件';
-
     container.innerHTML = list.map(w => `
       <div class="word-card" onclick="this.classList.toggle('open')">
         <div class="word-header">
@@ -463,7 +400,6 @@
 
   filterWords();
 
-  /* ─ ハンバーガー ─ */
   const btn   = document.getElementById('navHamburger');
   const links = document.getElementById('navLinks');
   btn.addEventListener('click', () => {
